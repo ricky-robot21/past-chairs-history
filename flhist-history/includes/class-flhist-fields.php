@@ -260,6 +260,16 @@ class FLHist_Fields {
 			}
 			echo '</p></div>';
 		}
+		$meta = $thumb ? wp_get_attachment_metadata( $thumb ) : array();
+		if ( $thumb && ! empty( $meta['width'] ) && (int) $meta['width'] < 400 ) {
+			echo '<div class="notice notice-warning"><p>' . esc_html(
+				sprintf(
+					/* translators: %d: photo width in pixels */
+					__( 'This entry\'s photo is only %d pixels wide. It may look blurry on the timeline. Use a photo at least 400 pixels wide.', 'flhist' ),
+					(int) $meta['width']
+				)
+			) . '</p></div>';
+		}
 	}
 
 	/* ---------------------------------------------------------------- List screen */

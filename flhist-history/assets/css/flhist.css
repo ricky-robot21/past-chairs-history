@@ -415,7 +415,7 @@
 .flhist .flhist-dialog__bar {
 	display: flex;
 	flex: 0 0 auto;
-	justify-content: flex-end;
+	justify-content: space-between;
 	padding: 0.25rem var(--flhist-space);
 	border-bottom: 1px solid var(--flhist-color-border);
 }
@@ -669,5 +669,58 @@
 @media (prefers-reduced-motion: reduce) {
 	.flhist .flhist-jump {
 		transition: none;
+	}
+}
+
+.flhist .flhist-dialog__copy {
+	min-height: 2.75rem;
+	padding-block: 0;
+	text-decoration: none;
+}
+
+/* Print: a clean list of years, names, and summaries. */
+@media print {
+	.flhist .flhist-toolbar,
+	.flhist .flhist-jump,
+	.flhist .flhist-none,
+	.flhist .flhist-dialog,
+	.flhist .flhist-button,
+	.flhist .flhist-card__media {
+		display: none !important;
+	}
+
+	.flhist {
+		max-width: none;
+		background: none;
+		color: #000;
+	}
+
+	.flhist .flhist-decade {
+		border-left-color: #000;
+	}
+
+	.flhist .flhist-decade__title {
+		break-after: avoid;
+	}
+
+	.flhist .flhist-entry {
+		break-inside: avoid;
+	}
+
+	.flhist .flhist-entry::before {
+		display: none;
+	}
+
+	.flhist .flhist-card {
+		padding: 0.25rem 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+	}
+
+	.flhist .flhist-card__year,
+	.flhist .flhist-card__city,
+	.flhist .flhist-card__snippet {
+		color: #000;
 	}
 }

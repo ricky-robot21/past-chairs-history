@@ -593,6 +593,65 @@
 		dialog.querySelector( '[data-flhist-close]' ).addEventListener( 'click', function () {
 			dialog.close();
 		} );
+
+		// Copy a link to the entry now shown.
+		var copyButton = dialog.querySelector( '[data-flhist-copy]' );
+		var copyTimer = null;
+		function copied() {
+			var label = copyButton.querySelector( '[data-flhist-copy-label]' );
+			var status = dialog.querySelector( '[data-flhist-copy-status]' );
+			label.textContent = copyButton.getAttribute( 'data-text-copied' );
+			status.textContent = copyButton.getAttribute( 'data-text-copied' );
+			window.clearTimeout( copyTimer );
+			copyTimer = window.setTimeout( function () {
+				label.textContent = copyButton.getAttribute( 'data-text-copy' );
+				status.textContent = '';
+			}, 2000 );
+		}
+		function fallbackCopy( text ) {
+			var field = document.createElement( 'textarea' );
+			field.value = text;
+			field.setAttribute( 'readonly', '' );
+			field.style.cssText = 'position:fixed;opacity:0;';
+			dialog.appendChild( field );
+			field.select();
+			var ok = false;
+			try {
+				ok = document.execCommand( 'copy' );
+			} catch ( e ) {}
+			dialog.removeChild( field );
+			copyButton.focus();
+			return ok;
+		}
+		if ( copyButton ) {
+			copyButton.addEventListener( 'click', function () {
+				if ( ! current ) {
+					return;
+				}
+				var url = window.location.origin + window.location.pathname + window.location.search + '#' + current.id;
+				if ( navigator.clipboard && navigator.clipboard.writeText ) {
+					navigator.clipboard.writeText( url ).then( copied, function () {
+						if ( fallbackCopy( url ) ) {
+							copied();
+						}
+					} );
+				} else if ( fallbackCopy( url ) ) {
+					copied();
+				}
+			} );
+		}
+
+		// Left and right arrows step through entries, unless the visitor is using a control that needs them.
+		dialog.addEventListener( 'keydown', function ( event ) {
+			if ( ( 'ArrowLeft' !== event.key && 'ArrowRight' !== event.key ) || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey ) {
+				return;
+			}
+			if ( event.target.closest && event.target.closest( 'input, select, textarea, iframe' ) ) {
+				return;
+			}
+			event.preventDefault();
+			step( 'ArrowLeft' === event.key ? -1 : 1 );
+		} );
 		prevButton.addEventListener( 'click', function () {
 			step( -1 );
 		} );

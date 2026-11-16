@@ -92,6 +92,10 @@ sort( $decades ); // The decade menu always runs oldest to newest.
 		<dialog class="flhist-dialog" data-flhist-dialog>
 			<div class="flhist-dialog__inner">
 				<div class="flhist-dialog__bar">
+					<button type="button" class="flhist-link-button flhist-dialog__copy" data-flhist-copy data-text-copy="<?php echo esc_attr__( 'Copy link', 'flhist' ); ?>" data-text-copied="<?php echo esc_attr__( 'Link copied', 'flhist' ); ?>">
+						<span data-flhist-copy-label><?php esc_html_e( 'Copy link', 'flhist' ); ?></span>
+					</button>
+					<span class="flhist-sr" role="status" data-flhist-copy-status></span>
 					<button type="button" class="flhist-link-button flhist-dialog__close" data-flhist-close>
 						<span aria-hidden="true">&times;</span> <?php esc_html_e( 'Close', 'flhist' ); ?>
 					</button>

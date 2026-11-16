@@ -225,3 +225,5 @@ Built steps 1 to 11 (the importer was built early, in step 2). Screenshots are i
 
 - Admin import page (History Entries > Import, `includes/class-flhist-import-page.php`): CSV upload, Preview (dry run) and Import now, update checkbox, nonce, capability `edit_others_posts`, .csv and 2 MB limits. Tested over HTTP as admin on sbotfam.test (preview, import, bad row reported). Photos and PDFs must be URLs here (relative paths only work through WP-CLI).
 - Fixed an importer bug found while testing: a CSV without the optional columns (body, video_url, and so on) reported a false "not a YouTube link" error. All columns now default to blank.
+
+- Round 3: arrow keys step through entries in the dialog (ignored in inputs and the video); Copy link button with a polite status message; print stylesheet (hides toolbar, bar, buttons, photos); admin warning for photos under 400px wide. Tested in Chromium: keys, clipboard, print media. The size warning is untested in a live edit screen (needs a login), code only.
