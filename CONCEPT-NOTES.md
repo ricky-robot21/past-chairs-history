@@ -48,3 +48,15 @@ Running log of decisions, skipped items, gaps, and questions. Newest section las
 - **Diana Friedman** is listed as "2012, 2013" on the page. Imported as 2012 to 2013. The page and the neighboring terms suggest a normal single-year term, so confirm with the client.
 - **Sample entries are now drafts**, not deleted. They hold the photo, video, PDF, and milestone cases we need to test the dialog in step 8. Publish them to test, then draft them again. They must be deleted before launch.
 - **Milestones:** none are real yet. The timeline is chairs only until the client sends some.
+
+## Step 3: timeline template
+
+- **Markup:** a section per decade (H2), an ordered list of entries inside it, one `<li>` per entry with an article card (H3 name). Each entry carries `data-type`, `data-decade`, `data-year-start`, `data-year-end`, and `data-search`.
+- **Compact vs rich:** an entry is rich if it has body text, a photo, a video link, or a PDF. Rich entries get a photo block and a "Read more" button. Compact entries get neither, and have tighter padding.
+- **Spine:** drawn with a left border on each decade section, with a marker on each entry (circle for chairs, diamond for milestones). Cards sit to the right of the spine on all screen sizes. No left and right alternating.
+- **Assets** load only on pages that hold the shortcode (checked by `has_shortcode`), and the shortcode also enqueues them as a fallback for page builders.
+- **Order attribute:** `order="desc"` reverses entries and decades on the server. `show_filters` is read but does nothing until step 6.
+- **Base CSS** in this step is structure plus a plain first look. Step 4 matches the site's colors and fonts.
+- **"Read more" does nothing yet.** The dialog is step 8.
+- **Dev page:** `https://sbotfam.test/flhist-dev/` (page ID 6592) holds the shortcode. Delete it before any database push.
+- **Theme issues seen on sbotfam.test, not from this plugin:** a PHP warning from the theme's `functions.php` line 43 ("Undefined variable $string") prints on pages, and the theme's top bar makes the page 20px wider than the screen at 375px. The timeline itself stays inside the screen.

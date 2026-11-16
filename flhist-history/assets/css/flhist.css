@@ -1,1 +1,255 @@
-/* Past Chairs History Timeline. Styles are built in step 4. All rules are scoped under .flhist. */
+/*
+ * Past Chairs History Timeline
+ * Every rule is scoped under .flhist. Change the tokens below to restyle the page.
+ * Step 3 adds the structure. Step 4 matches it to the site.
+ */
+
+.flhist {
+	--flhist-font-body: inherit;
+	--flhist-font-heading: inherit;
+	--flhist-color-text: #1f2937;
+	--flhist-color-muted: #4b5563;
+	--flhist-color-bg: transparent;
+	--flhist-color-surface: #ffffff;
+	--flhist-color-border: #d1d5db;
+	--flhist-color-accent: #1d4ed8;
+	--flhist-color-accent-contrast: #ffffff;
+	--flhist-color-chair: var(--flhist-color-accent);
+	--flhist-color-milestone: #b45309;
+	--flhist-radius: 8px;
+	--flhist-space: 1rem;
+	--flhist-spine-width: 3px;
+	--flhist-sticky-offset: 0px;
+	--flhist-max-width: 1000px;
+
+	box-sizing: border-box;
+	max-width: var(--flhist-max-width);
+	margin-inline: auto;
+	padding-block: calc(var(--flhist-space) * 1.5);
+	background: var(--flhist-color-bg);
+	color: var(--flhist-color-text);
+	font-family: var(--flhist-font-body);
+	line-height: 1.5;
+}
+
+.flhist *,
+.flhist *::before,
+.flhist *::after {
+	box-sizing: inherit;
+}
+
+.flhist :focus-visible {
+	outline: 3px solid var(--flhist-color-accent);
+	outline-offset: 2px;
+}
+
+/* Visible only to screen readers. */
+.flhist .flhist-sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ---------------------------------------------------------------- Timeline */
+
+.flhist .flhist-timeline {
+	position: relative;
+}
+
+.flhist .flhist-decade {
+	margin: 0 0 calc(var(--flhist-space) * 2) 0.5rem;
+	padding-left: 1.25rem;
+	border-left: var(--flhist-spine-width) solid var(--flhist-color-border);
+}
+
+.flhist .flhist-decade__title {
+	margin: 0 0 var(--flhist-space);
+	font-family: var(--flhist-font-heading);
+	font-size: 1.75rem;
+	line-height: 1.2;
+	color: var(--flhist-color-text);
+	scroll-margin-top: calc(var(--flhist-sticky-offset) + 4rem);
+}
+
+.flhist .flhist-list {
+	display: grid;
+	gap: var(--flhist-space);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.flhist .flhist-entry {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	scroll-margin-top: calc(var(--flhist-sticky-offset) + 4rem);
+}
+
+/* Marker on the spine. */
+.flhist .flhist-entry::before {
+	content: "";
+	position: absolute;
+	top: 1.15rem;
+	left: calc(-1.25rem - (var(--flhist-spine-width) / 2) - 7px);
+	width: 14px;
+	height: 14px;
+	border: 3px solid var(--flhist-color-surface);
+	border-radius: 50%;
+	background: var(--flhist-color-chair);
+	box-shadow: 0 0 0 1px var(--flhist-color-border);
+}
+
+.flhist .flhist-entry--milestone::before {
+	background: var(--flhist-color-milestone);
+	border-radius: 2px;
+	transform: rotate(45deg);
+}
+
+/* ---------------------------------------------------------------- Card */
+
+.flhist .flhist-card {
+	display: grid;
+	gap: var(--flhist-space);
+	padding: var(--flhist-space);
+	background: var(--flhist-color-surface);
+	border: 1px solid var(--flhist-color-border);
+	border-radius: var(--flhist-radius);
+}
+
+/* Compact entries: name, years, summary. Tighter, with no empty space. */
+.flhist .flhist-entry--compact .flhist-card {
+	padding-block: 0.75rem;
+}
+
+.flhist .flhist-card__media {
+	margin: 0;
+}
+
+.flhist .flhist-card__img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: calc(var(--flhist-radius) / 2);
+}
+
+.flhist .flhist-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0 0 0.25rem;
+	font-size: 0.875rem;
+}
+
+.flhist .flhist-card__year {
+	font-weight: 700;
+	color: var(--flhist-color-muted);
+}
+
+.flhist .flhist-badge {
+	padding: 0.05rem 0.55rem;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	line-height: 1.5;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.flhist .flhist-badge--chair {
+	color: var(--flhist-color-chair);
+}
+
+.flhist .flhist-badge--milestone {
+	color: var(--flhist-color-milestone);
+}
+
+.flhist .flhist-card__title {
+	margin: 0;
+	font-family: var(--flhist-font-heading);
+	font-size: 1.25rem;
+	line-height: 1.3;
+	color: var(--flhist-color-text);
+}
+
+.flhist .flhist-card__snippet {
+	margin: 0.35rem 0 0;
+	color: var(--flhist-color-text);
+}
+
+.flhist .flhist-button {
+	display: inline-block;
+	margin-top: 0.75rem;
+	padding: 0.5rem 1rem;
+	border: 2px solid var(--flhist-color-accent);
+	border-radius: var(--flhist-radius);
+	background: var(--flhist-color-accent);
+	color: var(--flhist-color-accent-contrast);
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.3;
+	cursor: pointer;
+}
+
+.flhist .flhist-button:hover {
+	background: var(--flhist-color-accent-contrast);
+	color: var(--flhist-color-accent);
+}
+
+.flhist .flhist-empty {
+	margin: 0;
+	padding: var(--flhist-space);
+	border: 1px solid var(--flhist-color-border);
+	border-radius: var(--flhist-radius);
+}
+
+/* ---------------------------------------------------------------- 640px and up */
+
+@media (min-width: 640px) {
+	.flhist .flhist-decade {
+		padding-left: 2rem;
+	}
+
+	.flhist .flhist-entry::before {
+		left: calc(-2rem - (var(--flhist-spine-width) / 2) - 7px);
+	}
+
+	.flhist .flhist-card--has-photo {
+		grid-template-columns: 9rem 1fr;
+		align-items: start;
+	}
+
+	.flhist .flhist-card {
+		padding: calc(var(--flhist-space) * 1.25);
+	}
+
+	.flhist .flhist-entry--compact .flhist-card {
+		padding-block: 0.9rem;
+	}
+}
+
+@media (min-width: 960px) {
+	.flhist .flhist-decade__title {
+		font-size: 2.25rem;
+	}
+
+	.flhist .flhist-card--has-photo {
+		grid-template-columns: 11rem 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flhist * {
+		animation: none !important;
+		transition: none !important;
+		scroll-behavior: auto !important;
+	}
+}
