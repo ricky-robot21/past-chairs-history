@@ -19,6 +19,7 @@
 	--flhist-color-chair: #a32327;
 	--flhist-color-milestone: #03466b;
 	--flhist-color-spine: #a32327;
+	--flhist-color-bar-bg: #fefcf2;
 	--flhist-radius: 0;
 	--flhist-space: 1rem;
 	--flhist-spine-width: 3px;
@@ -59,6 +60,53 @@
 	border: 0;
 }
 
+/* ---------------------------------------------------------------- Decade jump bar */
+
+.flhist .flhist-jump {
+	position: sticky;
+	top: var(--flhist-sticky-offset, 0px);
+	z-index: 10;
+	margin: 0 0 var(--flhist-space);
+	background: var(--flhist-color-bar-bg);
+	border-bottom: 2px solid var(--flhist-color-spine);
+}
+
+.flhist .flhist-jump__list {
+	display: flex;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0.4rem 0;
+	list-style: none;
+	overflow-x: auto;
+	scrollbar-width: thin;
+}
+
+.flhist .flhist-jump__item {
+	flex: 0 0 auto;
+	margin: 0;
+	padding: 0;
+}
+
+.flhist .flhist-jump__link {
+	display: block;
+	min-height: 2.75rem;
+	padding: 0.55rem 0.9rem;
+	border-bottom: 3px solid transparent;
+	color: var(--flhist-color-text);
+	font-weight: 700;
+	line-height: 1.5;
+	letter-spacing: 0.02em;
+	text-decoration: none;
+}
+
+.flhist .flhist-jump__link:hover {
+	color: var(--flhist-color-accent-hover);
+}
+
+.flhist .flhist-jump__link[aria-current="true"] {
+	border-bottom-color: var(--flhist-color-spine);
+}
+
 /* ---------------------------------------------------------------- Timeline */
 
 .flhist .flhist-timeline {
@@ -66,6 +114,7 @@
 }
 
 .flhist .flhist-decade {
+	scroll-margin-top: calc(var(--flhist-sticky-offset) + var(--flhist-bar-height, 3.5rem) + 0.5rem);
 	margin: 0 0 calc(var(--flhist-space) * 2) 0.5rem;
 	padding-left: 1.25rem;
 	border-left: var(--flhist-spine-width) solid var(--flhist-color-spine);
@@ -80,7 +129,6 @@
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
 	color: var(--flhist-color-text);
-	scroll-margin-top: calc(var(--flhist-sticky-offset) + 4rem);
 }
 
 .flhist .flhist-list {
@@ -95,7 +143,7 @@
 	position: relative;
 	margin: 0;
 	padding: 0;
-	scroll-margin-top: calc(var(--flhist-sticky-offset) + 4rem);
+	scroll-margin-top: calc(var(--flhist-sticky-offset) + var(--flhist-bar-height, 3.5rem) + 1rem);
 }
 
 /* Marker on the spine. */
@@ -265,4 +313,8 @@
 		transition: none !important;
 		scroll-behavior: auto !important;
 	}
+}
+
+.flhist [hidden] {
+	display: none !important;
 }

@@ -69,3 +69,17 @@ Running log of decisions, skipped items, gaps, and questions. Newest section las
 - **Chairs and milestones differ by more than color:** circle marker vs. diamond marker, plus the badge text.
 - **Contrast measured in the browser:** card titles and summary 14.6:1, decade headings 14.2:1, year 8.2:1, chair badge 7.4:1, milestone badge 10.0:1, button text 14.6:1. All pass the 4.5:1 target. Button hover (white on red) is about 7.4:1.
 - **Not yet checked:** the designer's direction. This is a first pass built from the site's existing look.
+
+## Step 5: decade jump bar
+
+- **Markup:** a `<nav aria-label="Jump to a decade">` with one link per decade, above the timeline. Without JavaScript the links still jump to the decade headings.
+- **Current decade** is tracked with one `IntersectionObserver` (no scroll handlers) and marked with `aria-current="true"` plus an underline. On narrow screens the bar scrolls sideways and keeps the current decade centered. It never scrolls the page itself.
+- **Click behavior:** scrolls to the decade (smooth, or instant with reduced motion), then moves focus to the decade heading so keyboard and screen reader users land there. The URL hash is not changed, so it will not clash with entry deep links (`#entry-slug`) in step 8.
+- **Hiding empty decades:** `root.flhist.jump.refresh()` hides bar links and decade sections that have no visible entries. Step 6 calls it after each filter change. It is not wired to anything yet.
+- **Offsets:** the bar sticks at `top: var(--flhist-sticky-offset)`. Headings and entries use the measured bar height (`--flhist-bar-height`, set by JS) in `scroll-margin-top`, so anchors do not land under the bar. New token: `--flhist-color-bar-bg`.
+
+### Problem found: the sbotfam theme blocks sticky positioning
+
+The theme sets `#sbotfam-wrap { overflow-x: hidden; }` (`style.css` line 563). With that, the browser treats the wrapper as the scroll container, and `position: sticky` on anything inside it never sticks. The jump bar scrolls away with the page.
+
+I confirmed the cause: setting the wrapper to `overflow: visible` in the browser made the bar stick and the highlight work at 1280 and 375 px. The plugin cannot work around this cleanly. The fix is a one-line theme change: `overflow-x: clip` in place of `hidden` (works in Chrome 90+, Safari 16+, Firefox 81+). I did not change the theme. Needs a decision from Ricky or the director. The same issue will affect any sticky element in this theme, and the live theme may or may not behave this way.
