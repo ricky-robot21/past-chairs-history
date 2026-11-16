@@ -101,7 +101,7 @@ class FLHist_Importer {
 			if ( 1 === count( $cells ) && ( null === $cells[0] || '' === trim( $cells[0] ) ) ) {
 				continue; // Blank line.
 			}
-			$row = array();
+			$row = array_fill_keys( self::COLUMNS, '' ); // Optional columns may be missing from the file.
 			foreach ( $header as $i => $name ) {
 				$row[ $name ] = isset( $cells[ $i ] ) ? trim( $cells[ $i ] ) : '';
 			}

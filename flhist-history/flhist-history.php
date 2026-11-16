@@ -23,6 +23,7 @@ require_once FLHIST_DIR . 'includes/class-flhist-post-types.php';
 require_once FLHIST_DIR . 'includes/class-flhist-fields.php';
 require_once FLHIST_DIR . 'includes/class-flhist-render.php';
 require_once FLHIST_DIR . 'includes/class-flhist-importer.php';
+require_once FLHIST_DIR . 'includes/class-flhist-import-page.php';
 
 /**
  * Start the plugin.
@@ -32,6 +33,7 @@ function flhist_bootstrap() {
 	FLHist_Fields::init();
 	FLHist_Render::init();
 	FLHist_Importer::init();
+	FLHist_Import_Page::init();
 }
 add_action( 'plugins_loaded', 'flhist_bootstrap' );
 

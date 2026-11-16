@@ -24,6 +24,15 @@ Each of these is optional. An entry that has any of them gets a **Read more** bu
 - **Video.** Paste a YouTube link, such as `https://www.youtube.com/watch?v=...` or `https://youtu.be/...`. Other video sites do not work.
 - **PDFs.** Upload up to three. Give each one a label, such as "1994 Annual Report". Visitors see the label, the file type, and the size.
 
+### Add many entries from a spreadsheet
+
+1. Go to **History Entries**, then **Import**.
+2. Download the CSV template, fill in one row per entry, and save it as CSV.
+3. Choose the file and click **Preview**. Nothing is saved yet. Fix any rows it reports.
+4. Choose the file again and click **Import now**.
+
+Photos and PDFs in the file must be web addresses. Tick the box to update entries that already exist.
+
 ### Fix or reorder an entry
 
 - Open it from **History Entries**, change what you need, and click **Update**.
@@ -87,7 +96,7 @@ wp flhist import path/to/file.csv --update
 
 ```
 flhist-history.php          plugin header and start-up
-includes/                   post type, fields, shortcode, importer
+includes/                   post type, fields, shortcode, importer, import page
 templates/                  timeline, card, and dialog markup
 assets/css/flhist.css       styles and tokens
 assets/js/flhist.js         decade bar, search, filters, dialog
