@@ -37,3 +37,14 @@ Running log of decisions, skipped items, gaps, and questions. Newest section las
 ## Questions for design and the director
 
 - None yet.
+
+## Real chair entries (loaded from the Past Chairs page)
+
+- **Source:** the existing page at `/history/past-section-chairs/` (page ID 421) on sbotfam.test. A script parsed the names, cities, and years. 50 chairs, 1960 to 2026. All 50 were imported as published entries with no errors.
+- **What each entry has:** name, start year, end year, and a short summary built only from the page: "Section Chair, Lubbock." Lisa Hoppes has no city on the page, so hers reads "Section Chair." No bios, photos, or other text were added. The committee will supply the rest.
+- **Summary field is required**, so the city was used as a factual placeholder. Replace it when the client sends real text.
+- **`data/real-chairs-seed.csv` is not committed.** It has cities as well as names and years, and the brief says to commit only public names and years. It is in `.gitignore`. Re-create it from the page, or ask Ricky for the file.
+- **Hawthorne Phillips starts in 1960**, which is earlier than the "1961" in the brief. It is what the page says.
+- **Diana Friedman** is listed as "2012, 2013" on the page. Imported as 2012 to 2013. The page and the neighboring terms suggest a normal single-year term, so confirm with the client.
+- **Sample entries are now drafts**, not deleted. They hold the photo, video, PDF, and milestone cases we need to test the dialog in step 8. Publish them to test, then draft them again. They must be deleted before launch.
+- **Milestones:** none are real yet. The timeline is chairs only until the client sends some.
