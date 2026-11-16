@@ -5,7 +5,8 @@ Running log of decisions, skipped items, gaps, and questions. Newest section las
 ## Setup (steps 1 and 2)
 
 - **Local setup found:** Local by Flywheel is installed with several sites. No Docker, no global `wp` or `php`. Local ships its own PHP and WP-CLI (`/Applications/Local.app/Contents/Resources/extraResources/bin/wp-cli/wp-cli.phar`).
-- **Test site:** Robot GeneratePress (`robot-generatepress.local`, PHP 8.2, Twenty Twenty-Five and GeneratePress themes, ACF Pro 6.7). The plugin folder is symlinked into its `wp-content/plugins`, so edits in this repo show up there at once. The SBOTFAM site is not used for testing because it holds copied live customer data.
+- **Test site:** SBOTFAM (`sbotfam.test`, PHP 8.5.3, ACF Pro 6.8). Ricky chose it over Robot GeneratePress. It is a local copy of the live site, so it holds copied customer data. Only sample entries were added. The plugin folder is symlinked into its `wp-content/plugins`, and the symlink is listed in that repo's `.git/info/exclude` so it never gets committed. Remove the sample entries before any database push to a live or staging site.
+- **WP-CLI:** `./wpl.sh <command>` runs WP-CLI against the SBOTFAM site with Local's PHP and its MySQL socket (site run folder `48ZlbwRuP`).
 - **Project folder:** `~/past-chairs-history`, separate from the SBOTFAM site repo.
 
 ## Decisions
@@ -19,6 +20,14 @@ Running log of decisions, skipped items, gaps, and questions. Newest section las
 - **Sample YouTube video** is the first video ever posted to YouTube (ID jNQXAC9IVRw), chosen as a neutral placeholder. Swap if the director prefers.
 - **Shortcode output is a plain list for now.** Step 3 replaces it.
 - **ACF Pro is on the test site, free ACF is the target.** No repeater is used, so both work. Should be re-checked on free ACF before launch.
+
+## Checked so far (CLI only, admin screens not yet viewed)
+
+- Plugin activates with no PHP errors. Terms Chair and Milestone are created.
+- Sample import: dry run and real run both work. Re-running skips all 14 entries.
+- Decades assign correctly (1960s to 2020s) and re-assign when the year changes on save.
+- Entry post type has `rewrite` false and `publicly_queryable` false.
+- YouTube parsing accepts youtu.be and watch links and rejects other hosts.
 
 ## Skipped or not yet built
 
