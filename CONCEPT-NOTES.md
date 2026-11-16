@@ -60,3 +60,12 @@ Running log of decisions, skipped items, gaps, and questions. Newest section las
 - **"Read more" does nothing yet.** The dialog is step 8.
 - **Dev page:** `https://sbotfam.test/flhist-dev/` (page ID 6592) holds the shortcode. Delete it before any database push.
 - **Theme issues seen on sbotfam.test, not from this plugin:** a PHP warning from the theme's `functions.php` line 43 ("Undefined variable $string") prints on pages, and the theme's top bar makes the page 20px wider than the screen at 375px. The timeline itself stays inside the screen.
+
+## Step 4: styling
+
+- **Brand values** were read from the sbotfam.test theme with the browser: navy `#002a4d` (text and buttons), red `#a32327` (spine, chair markers, button hover), steel blue `#03466b` (milestones), cream page background `#fefcf2`, Lato from the theme. The site uses square corners and uppercase bold headings, so the card radius is 0 and decade and card titles are uppercase.
+- **Only token values changed.** The rules still read from the tokens in `.flhist`, so the designer can retheme in one block at the top of `flhist.css`. Two tokens were added beyond the spec list: `--flhist-color-accent-hover` and `--flhist-color-spine`.
+- **Fonts inherit from the theme.** `--flhist-font-body` and `--flhist-font-heading` are still `inherit`, so the page picks up Lato here and the right font on any other theme.
+- **Chairs and milestones differ by more than color:** circle marker vs. diamond marker, plus the badge text.
+- **Contrast measured in the browser:** card titles and summary 14.6:1, decade headings 14.2:1, year 8.2:1, chair badge 7.4:1, milestone badge 10.0:1, button text 14.6:1. All pass the 4.5:1 target. Button hover (white on red) is about 7.4:1.
+- **Not yet checked:** the designer's direction. This is a first pass built from the site's existing look.
