@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+review/*.png
+*.zip
+# Never commit client data, credentials, or license keys
+.env
+data/real-chairs-seed.csv
+flhist-history/data/real-chairs-seed.csv
