@@ -44,7 +44,8 @@
 }
 
 .flhist :focus-visible {
-	outline: 3px solid var(--flhist-color-accent);
+	/* !important because some themes remove the outline from inputs and links with !important. */
+	outline: 3px solid var(--flhist-color-accent) !important;
 	outline-offset: 2px;
 }
 
@@ -99,6 +100,17 @@
 	color: var(--flhist-color-text);
 	font: inherit;
 	line-height: 1.4;
+}
+
+.flhist select.flhist-field__input {
+	padding-right: 2.5rem;
+	/* Arrow drawn from the text color token, so it follows the theme tokens. */
+	background-image: linear-gradient(45deg, transparent 50%, var(--flhist-color-text) 50%), linear-gradient(135deg, var(--flhist-color-text) 50%, transparent 50%);
+	background-position: calc(100% - 1.25rem) 50%, calc(100% - 0.9rem) 50%;
+	background-size: 0.4rem 0.4rem, 0.4rem 0.4rem;
+	background-repeat: no-repeat;
+	-webkit-appearance: none;
+	appearance: none;
 }
 
 .flhist .flhist-toolbar__actions {
@@ -213,7 +225,8 @@
 	line-height: 1.2;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	color: var(--flhist-color-text);
+	/* !important because the sbotfam theme sets heading color with !important. */
+	color: var(--flhist-color-text) !important;
 }
 
 .flhist .flhist-list {
@@ -325,7 +338,8 @@
 	line-height: 1.3;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	color: var(--flhist-color-text);
+	/* !important because the sbotfam theme sets heading color with !important. */
+	color: var(--flhist-color-text) !important;
 }
 
 .flhist .flhist-card__snippet {
@@ -481,7 +495,8 @@
 	line-height: 1.2;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	color: var(--flhist-color-text);
+	/* !important because the sbotfam theme sets heading color with !important. */
+	color: var(--flhist-color-text) !important;
 }
 
 .flhist .flhist-detail__title:focus {

@@ -162,3 +162,58 @@ Not the plugin, so not fixed:
 ### Sticky header on phones
 
 The theme's header uses Headroom: it hides when you scroll down and slides in when you scroll up, on every width. My earlier plan of `--flhist-sticky-offset: 131px` is wrong for that. With a fixed 131px, the bar leaves a gap under the top of the screen whenever the header is hidden, which is most of the time and always on phones. The dev page is back to the default offset of 0. With 0, the bar sits at the top of the screen and the header slides over it while scrolling up. That is acceptable, but the designer may want something different (for example, keeping the bar under the header only on scroll up). Question for the designer.
+
+## Checkpoint: concept complete
+
+Built steps 1 to 11 (the importer was built early, in step 2). Screenshots are in `review/` (375, 768, 1280 px: top, full timeline, rich card, dialog, filtered). `review/twentytwentyfive/` has the same page on the default block theme. They are not committed (binary files). Re-create them with `node tools/review.mjs <page url>`. The sbotfam screenshots show a PHP warning from the theme (`functions.php` line 43, "Undefined variable $string"). That is the theme, not the plugin.
+
+### Acceptance checklist (SPEC section 12)
+
+| # | Item | Result |
+| --- | --- | --- |
+| 1 | Activates with no PHP warnings on a block theme and a classic theme | Pass. Twenty Twenty-Five (block) and the sbotfam theme (classic). No PHP messages from the plugin on either. |
+| 2 | Adding an entry takes under 2 minutes and sets the decade | Partly checked. The save path sets the decade, and the admin list columns, filters and field group load without errors (12 fields). I could not open the admin screens in a browser because they need a login. Someone should add one entry by hand and time it. |
+| 3 | Shortcode shows timeline, jump bar, toolbar | Pass |
+| 4 | Compact entries look finished, no empty space | Pass |
+| 5 | Search by name, text, year. Filters combine | Pass |
+| 6 | Dialog opens, traps focus, closes on Escape, returns focus, stops video | Pass, tested by keyboard at all three widths |
+| 7 | Deep link opens an entry on load | Pass |
+| 8 | 375, 768, 1280 with no horizontal scroll | Pass for the plugin. On sbotfam at 375 the page scrolls 20px sideways because of the theme footer. 0px on Twenty Twenty-Five. |
+| 9 | Keyboard-only use works for every feature | Pass. Every control in the first 14 tab stops has a visible focus ring, and the dialog flow works by keyboard. |
+| 10 | axe: no serious or critical issues | Pass for the plugin (0 violations in `.flhist`, 22 rules passed). With the dialog open, axe flags 3 issues inside YouTube's own player iframe, which we do not control. Whole page on sbotfam: 4 links without names and a viewport meta that blocks zoom (both theme). Whole page on Twenty Twenty-Five: one `aria-hidden-focus` issue (theme). |
+| 11 | Changing tokens restyles the page | Pass. Accent, heading font, text color, spine color, chair color, and radius all followed. |
+| 12 | No console errors. No third-party requests until a video opens | Pass for the plugin: no console errors, and the plugin makes no third-party request until the dialog opens a video (then youtube-nocookie.com, google.com, ytimg.com). The sbotfam theme loads Google and Bunny fonts on every page. Twenty Twenty-Five loads Bunny fonts. |
+| 13 | Importer dry run and real run work on the sample CSV | Pass. Also re-run with `--update`. |
+
+### Decisions that need a look from design or the director
+
+1. **Compact entries have no detail view.** The 50 real chairs are all compact, so the dialog and Previous/Next do nothing for them today. Should every entry open a dialog, even a thin one?
+2. **Chair markers are circles, milestone markers are diamonds, chairs are red, milestones steel blue.** Shape carries the meaning, not only color.
+3. **Cards sit to the right of the spine on every screen size.** No alternating left and right, as the brief preferred.
+4. **Card photos are cropped to 4:5 from the top.** The dialog shows the whole photo.
+5. **Sticky decade bar versus the theme header.** The header hides on scroll down and slides in on scroll up. The bar stays at the top and the header slides over it. Fine, or should the bar move down with the header?
+6. **Selectric:** the theme restyles every select menu with it. The plugin puts the native menu back, for accessibility, and styles it with its own arrow. Designer may want the theme's look instead.
+7. **Search & Filter Pro was not used.** A small script filters the page in place. 64 entries need no server round trip, no license, and no extra plugin. Data attributes are set up so Search & Filter Pro could replace it later.
+8. **The summary field is required**, so the real chairs have "Section Chair, City." as a placeholder summary. Replace when real text arrives.
+9. **`!important` is used in two places only:** heading color and the focus ring, because the sbotfam theme forces both.
+
+### Known gaps and things not done
+
+- **Admin screens not seen in a browser** (login needed). See checklist item 2.
+- **Admin CSV upload page** (the stretch goal in SPEC section 8) was not built. The importer is WP-CLI only.
+- **Real content:** only names, years, and cities from the existing page. No photos, text, videos, or PDFs yet. No real milestones.
+- **Theme problems found on sbotfam**, not fixed except the first:
+  - `#sbotfam-wrap { overflow-x: hidden }` blocked sticky positioning. Changed to `clip`, uncommitted in the SBOTFAM repo.
+  - PHP warning in `functions.php` line 43.
+  - Footer is 20px wider than a 375px screen.
+- **Live theme not known.** Everything was tested on the local copy of sbotfam and on Twenty Twenty-Five. The live site may differ, especially for sticky behavior and select menus.
+- **Free ACF not tested.** The test site has ACF Pro. No Pro-only features are used, so free ACF should work. Check before launch.
+- **Other browsers:** tested in Chromium only (Playwright and the built-in browser). Safari and Firefox are step 13.
+- **Two timelines on one page** would repeat decade anchor ids.
+- **Cleanup before any database push from this site:** delete the dev page "History Timeline (dev)" (ID 6592), delete the 14 draft sample entries and their media, and remove the symlink `wp-content/plugins/flhist-history` if you do not want the plugin there.
+
+### Questions for the client
+
+- Is Diana Friedman's "2012, 2013" a two-year term like the others?
+- Hawthorne Phillips is listed as 1960 to 1961. The brief said the list starts in 1961. Which is right?
+- Does the live site have ACF, and which theme and page builder does it use?

@@ -1,0 +1,134 @@
+{
+  "url": "https://sbotfam.test/flhist-dev/",
+  "widths": {
+    "375": {
+      "pageOverflow": 20,
+      "flhistOverflow": 0,
+      "entries": 64,
+      "consoleErrors": [],
+      "thirdParty": [
+        "BEFORE-OPEN fonts.bunny.net",
+        "BEFORE-OPEN fonts.googleapis.com",
+        "BEFORE-OPEN fonts.gstatic.com",
+        "AFTER-OPEN www.youtube-nocookie.com",
+        "AFTER-OPEN fonts.gstatic.com",
+        "AFTER-OPEN www.google.com",
+        "AFTER-OPEN i.ytimg.com"
+      ]
+    },
+    "768": {
+      "pageOverflow": 0,
+      "flhistOverflow": 0,
+      "entries": 64,
+      "consoleErrors": [],
+      "thirdParty": [
+        "BEFORE-OPEN fonts.bunny.net",
+        "BEFORE-OPEN fonts.googleapis.com",
+        "BEFORE-OPEN fonts.gstatic.com",
+        "AFTER-OPEN www.youtube-nocookie.com",
+        "AFTER-OPEN fonts.gstatic.com",
+        "AFTER-OPEN www.google.com",
+        "AFTER-OPEN i.ytimg.com"
+      ]
+    },
+    "1280": {
+      "pageOverflow": 0,
+      "flhistOverflow": 0,
+      "entries": 64,
+      "consoleErrors": [],
+      "thirdParty": [
+        "BEFORE-OPEN fonts.bunny.net",
+        "BEFORE-OPEN fonts.googleapis.com",
+        "BEFORE-OPEN fonts.gstatic.com",
+        "AFTER-OPEN www.youtube-nocookie.com",
+        "AFTER-OPEN fonts.gstatic.com",
+        "AFTER-OPEN www.google.com",
+        "AFTER-OPEN i.ytimg.com",
+        "AFTER-OPEN jnn-pa.googleapis.com",
+        "AFTER-OPEN fonts.googleapis.com",
+        "AFTER-OPEN fonts.bunny.net"
+      ]
+    }
+  },
+  "axe": {
+    "dialogOpen": [
+      {
+        "id": "aria-allowed-attr",
+        "impact": "critical",
+        "nodes": 1,
+        "help": "Elements must only use supported ARIA attributes"
+      },
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1,
+        "help": "Elements must only use permitted ARIA attributes"
+      },
+      {
+        "id": "button-name",
+        "impact": "critical",
+        "nodes": 1,
+        "help": "Buttons must have discernible text"
+      }
+    ],
+    "plugin": [],
+    "wholePage": [
+      {
+        "id": "link-name",
+        "impact": "serious",
+        "nodes": 4,
+        "help": "Links must have discernible text",
+        "sample": ".panel-widget-style-for-w61392efcb3af5-0-0-0 > a[target=\"_blank\"][data-wpel-link=\"external\"][rel=\"external noopener noreferrer\"]"
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "nodes": 1,
+        "help": "Zooming and scaling must not be disabled",
+        "sample": "meta[name=\"viewport\"]"
+      }
+    ],
+    "passes": 22
+  },
+  "checks": {
+    "375": {
+      "keyboard": {
+        "focusInDialog": true,
+        "iframe": true,
+        "hash": "#entry-sample-chair-2008"
+      },
+      "after": {
+        "closed": true,
+        "iframe": false,
+        "hash": "",
+        "focusOnButton": true
+      }
+    },
+    "768": {
+      "keyboard": {
+        "focusInDialog": true,
+        "iframe": true,
+        "hash": "#entry-sample-chair-2008"
+      },
+      "after": {
+        "closed": true,
+        "iframe": false,
+        "hash": "",
+        "focusOnButton": true
+      }
+    },
+    "1280": {
+      "keyboard": {
+        "focusInDialog": true,
+        "iframe": true,
+        "hash": "#entry-sample-chair-2008"
+      },
+      "after": {
+        "closed": true,
+        "iframe": false,
+        "hash": "",
+        "focusOnButton": true
+      }
+    }
+  }
+}

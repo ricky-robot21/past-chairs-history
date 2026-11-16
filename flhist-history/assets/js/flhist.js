@@ -24,6 +24,24 @@
 		}
 	}
 
+	// Selectric swaps the real <select> for a custom widget whose input has no label, which fails
+	// accessibility checks. Put the native select back. A native select is also what phones show best.
+	function restoreNativeSelects( root ) {
+		var $ = window.jQuery;
+		if ( ! $ || ! $.fn || ! $.fn.selectric ) {
+			return;
+		}
+		function run() {
+			all( root, 'select' ).forEach( function ( select ) {
+				if ( select.closest( '.selectric-wrapper' ) ) {
+					$( select ).selectric( 'destroy' );
+				}
+			} );
+		}
+		$( run ); // After the theme has set it up, since jQuery runs ready callbacks in order.
+		window.setTimeout( run, 400 );
+	}
+
 	function refreshSelect( select ) {
 		var $ = window.jQuery;
 		if ( $ && $.fn && $.fn.selectric ) {
@@ -573,6 +591,7 @@
 	}
 
 	function init( root ) {
+		restoreNativeSelects( root );
 		all( root, '.flhist-card__img' ).forEach( function ( img ) {
 			watchImage( img, img.closest( '.flhist-card__media' ), img.closest( '.flhist-card' ) );
 		} );
