@@ -142,3 +142,23 @@ Known limits, not fixed:
 - **Two timelines on one page** would repeat the decade anchor ids. The dialog ids are unique. Not expected.
 - **Tiny photos** (about 40px) get upscaled and look soft on the card. The README for the committee should say photos should be at least 400px wide.
 - **Photo files stored off the server** (offloaded media) work, because the check is "does the image load", not "does the file exist on disk".
+
+## Step 10: mobile pass (375 and 768 px)
+
+Checked at 375 and 768 with the sample entries published.
+
+Bug found and fixed:
+- **The sbotfam theme restyles every `<select>` with Selectric** (`js/selectric.js`: `jQuery('select').selectric()`). Picking a Type or Decade from the restyled menu changed the select but never ran the filter, because Selectric announces the change through jQuery, which does not reach plain listeners. The script now also listens through jQuery when jQuery is on the page, and refreshes the Selectric copy when it sets a value itself (Clear filters, filters loaded from the address). This is a compatibility hook only. The plugin does not need jQuery and works the same without it. Tested: picking from the restyled menus filters correctly, Clear filters resets both labels, and `?type=chair&decade=1990s` shows the right labels on load.
+- **Tap targets:** Read more, Clear filters, and the sort toggle were 39 to 43px tall. All buttons and links in the plugin are now at least 44px tall. Checked: no control under 44px.
+
+Checked and fine:
+- 375px: toolbar stacks in one column, the jump bar scrolls sideways, cards run the full width next to the spine, the photo sits above the text at a fixed size, and the dialog scrolls inside its box with Previous and Next in view.
+- 768px: toolbar shows Type and Decade side by side, and cards are wide with the photo beside the text.
+- Nothing from the plugin overflows the screen at either width.
+
+Not the plugin, so not fixed:
+- **The theme footer is 20px wider than the screen at 375px**, which gives the whole page a small sideways scroll. The theme's top bar did the same earlier. Needs a theme fix.
+
+### Sticky header on phones
+
+The theme's header uses Headroom: it hides when you scroll down and slides in when you scroll up, on every width. My earlier plan of `--flhist-sticky-offset: 131px` is wrong for that. With a fixed 131px, the bar leaves a gap under the top of the screen whenever the header is hidden, which is most of the time and always on phones. The dev page is back to the default offset of 0. With 0, the bar sits at the top of the screen and the header slides over it while scrolling up. That is acceptable, but the designer may want something different (for example, keeping the bar under the header only on scroll up). Question for the designer.

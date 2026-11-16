@@ -12,6 +12,25 @@
 		return Array.prototype.slice.call( parent.querySelectorAll( selector ) );
 	}
 
+	/* ------------------------------------------------------------ Select enhancers */
+
+	// Some themes restyle every <select> with a jQuery plugin (Selectric, Select2, and similar).
+	// Those plugins announce a change through jQuery only, so a plain listener never hears it.
+	// Listen both ways when jQuery is on the page, and refresh the restyled copy after we set a value.
+	function onSelectChange( select, callback ) {
+		select.addEventListener( 'change', callback );
+		if ( window.jQuery ) {
+			window.jQuery( select ).on( 'change', callback );
+		}
+	}
+
+	function refreshSelect( select ) {
+		var $ = window.jQuery;
+		if ( $ && $.fn && $.fn.selectric ) {
+			$( select ).selectric( 'refresh' );
+		}
+	}
+
 	/* ------------------------------------------------------------ Broken photos */
 
 	// If a photo file is missing, drop the empty photo box instead of showing a broken image.
@@ -302,6 +321,8 @@
 			qInput.value = '';
 			typeSelect.value = '';
 			decadeSelect.value = '';
+			refreshSelect( typeSelect );
+			refreshSelect( decadeSelect );
 			apply();
 			qInput.focus();
 		}
@@ -337,8 +358,8 @@
 			window.clearTimeout( timer );
 			timer = window.setTimeout( apply, 150 );
 		} );
-		typeSelect.addEventListener( 'change', apply );
-		decadeSelect.addEventListener( 'change', apply );
+		onSelectChange( typeSelect, apply );
+		onSelectChange( decadeSelect, apply );
 		clears.forEach( function ( button ) {
 			button.addEventListener( 'click', clearAll );
 		} );
