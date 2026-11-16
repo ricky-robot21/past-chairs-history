@@ -60,6 +60,89 @@
 	border: 0;
 }
 
+/* ---------------------------------------------------------------- Toolbar (search and filters) */
+
+.flhist .flhist-toolbar {
+	display: grid;
+	gap: var(--flhist-space);
+	margin: 0 0 var(--flhist-space);
+	padding: var(--flhist-space);
+	background: var(--flhist-color-surface);
+	border: 1px solid var(--flhist-color-border);
+	border-radius: var(--flhist-radius);
+}
+
+.flhist .flhist-field {
+	display: grid;
+	gap: 0.25rem;
+	min-width: 0;
+}
+
+.flhist .flhist-field__label {
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--flhist-color-muted);
+}
+
+.flhist .flhist-field__input {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 2.75rem;
+	margin: 0;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid var(--flhist-color-muted);
+	border-radius: var(--flhist-radius);
+	background: var(--flhist-color-surface);
+	color: var(--flhist-color-text);
+	font: inherit;
+	line-height: 1.4;
+}
+
+.flhist .flhist-toolbar__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.25rem;
+	align-items: center;
+}
+
+.flhist .flhist-link-button {
+	margin: 0;
+	padding: 0.5rem 0;
+	border: 0;
+	background: none;
+	color: var(--flhist-color-accent);
+	font: inherit;
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	cursor: pointer;
+}
+
+.flhist .flhist-link-button:hover {
+	color: var(--flhist-color-accent-hover);
+}
+
+.flhist .flhist-status {
+	margin: 0;
+	color: var(--flhist-color-muted);
+	font-size: 0.9rem;
+}
+
+.flhist .flhist-none {
+	margin: 0 0 var(--flhist-space);
+	padding: var(--flhist-space);
+	background: var(--flhist-color-surface);
+	border: 1px solid var(--flhist-color-border);
+	border-radius: var(--flhist-radius);
+}
+
+.flhist .flhist-none p {
+	margin: 0;
+	font-weight: 700;
+}
+
 /* ---------------------------------------------------------------- Decade jump bar */
 
 .flhist .flhist-jump {
@@ -275,6 +358,16 @@
 /* ---------------------------------------------------------------- 640px and up */
 
 @media (min-width: 640px) {
+	.flhist .flhist-toolbar {
+		grid-template-columns: 1fr 1fr;
+		align-items: end;
+	}
+
+	.flhist .flhist-field--search,
+	.flhist .flhist-status {
+		grid-column: 1 / -1;
+	}
+
 	.flhist .flhist-decade {
 		padding-left: 2rem;
 	}
@@ -298,6 +391,19 @@
 }
 
 @media (min-width: 960px) {
+	.flhist .flhist-toolbar {
+		grid-template-columns: 2fr 1fr 1fr;
+	}
+
+	.flhist .flhist-field--search {
+		grid-column: auto;
+	}
+
+	.flhist .flhist-toolbar__actions,
+	.flhist .flhist-status {
+		grid-column: 1 / -1;
+	}
+
 	.flhist .flhist-decade__title {
 		font-size: 2.5rem;
 	}

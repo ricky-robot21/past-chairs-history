@@ -85,3 +85,24 @@ The theme sets `#sbotfam-wrap { overflow-x: hidden; }` (`style.css` line 563). W
 I confirmed the cause: setting the wrapper to `overflow: visible` in the browser made the bar stick and the highlight work at 1280 and 375 px. The plugin cannot work around this cleanly. The fix is a one-line theme change: `overflow-x: clip` in place of `hidden` (works in Chrome 90+, Safari 16+, Firefox 81+). I did not change the theme. Needs a decision from Ricky or the director. The same issue will affect any sticky element in this theme, and the live theme may or may not behave this way.
 
 **Update:** Ricky approved the theme change. In `sbotfam/style.css` the `#sbotfam-wrap` rule now uses `overflow-x: clip` in place of `overflow-x: hidden`. Checked in the browser on sbotfam.test: the jump bar sticks at the top and highlights the decade in view. The change is in the SBOTFAM site repo and is not committed there. If the live theme has the same rule, it needs the same one-line change before launch.
+
+## Step 6: search and filters (the toolbar styling in step 7 is mostly done here)
+
+- **Toolbar:** a search box, Type menu (All, Chairs, Milestones), Decade menu, a sort toggle, a Clear filters button, and a result count. All native inputs with real labels. Clear filters only shows when something is active.
+- **Search:** case and accent insensitive, updates 150 ms after typing stops, matches name, city and summary text, full text, and the year label. Several words must all match. A four digit word also matches any entry whose years include it, so "1994" finds John Compere (1993 to 1994) and Brian Webb (1994 to 1995).
+- **Filtering** only toggles the `hidden` attribute. Nothing is re-rendered. Decades with no visible entries disappear from the page and the jump bar.
+- **Result count** sits in an `aria-live="polite"` region: "3 entries shown, oldest first". When nothing matches, an empty message and a Clear filters button show in place of the timeline.
+- **Shareable links:** the filters are kept in the address as `?q=`, `?type=`, `?decade=`, and are read again on load. Other query parameters are left alone. Values that are not valid options are ignored. This is the "nice to have" in the spec. It was cheap, so it is in.
+- **Sort toggle (spec 5.7):** "Oldest first / Newest first". It reverses the decades, the entries in each decade, and the jump bar in the page, so it works together with the filters. The shortcode's `order="desc"` sets the starting state.
+- **Data attributes** on each entry are the same set Search & Filter Pro would need, so it could be swapped in later.
+- **Tested in the browser** with the sample data published (64 entries): name, case, year, body text, multi-word city, no match, each filter alone and combined, Clear, loading from a URL, bad URL values, sort and back.
+
+### Sticky header on sbotfam
+
+The theme has a fixed header that appears after scrolling, about 131px tall. The jump bar sticks at `top: 0` by default, so it would sit under that header. The fix is the token that already exists: `--flhist-sticky-offset: 131px`. On the dev page I set it with a small style block. For the real page the designer can put it in the theme CSS: `.flhist { --flhist-sticky-offset: 131px; }`. The header height may differ on phones. Check in step 10.
+
+The current-decade highlight now watches a thin band just below the sticky header and bar, using that offset, instead of a fixed share of the screen.
+
+### Testing note
+
+The browser pane in this tool does not draw frames until a screenshot is taken, which delays `IntersectionObserver` callbacks. A scripted scroll test can show no highlight until a frame is drawn. It worked once a frame was drawn.
