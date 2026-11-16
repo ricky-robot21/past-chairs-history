@@ -12,12 +12,13 @@ A timeline of past chairs and Section milestones. Visitors can scan it by decade
 4. Write a short summary of one or two sentences. This is the only text an early entry needs.
 5. Click **Publish**. The entry appears on the timeline in the right decade. You do not set the decade yourself.
 
-An entry with only a name, years, and a summary is a complete entry. It shows as a compact card.
+An entry with only a name, years, and a summary is a complete entry. It shows as a compact card, and its **Details** button opens a short window with the same information. Every entry can be stepped through with Previous and Next.
 
 ### Add more to an entry
 
-Each of these is optional. An entry that has any of them gets a **Read more** button.
+Each of these is optional. An entry that has any of them gets a **Read more** button instead of **Details**.
 
+- **City.** Type the chair's city in the **City** box. It shows beside the years and can be searched.
 - **Photo.** Use the **Photo** box on the right. Pick a picture that is at least 400 pixels wide. After you upload it, fill in the **Alt text** field in the media library. Alt text describes the picture for people who cannot see it. A warning shows on the edit screen if it is missing.
 - **Full story.** Type it in the main text box.
 - **Video.** Paste a YouTube link, such as `https://www.youtube.com/watch?v=...` or `https://youtu.be/...`. Other video sites do not work.
@@ -72,7 +73,7 @@ Heading color and the keyboard focus ring use `!important`, because some themes 
 
 ### Import from a spreadsheet
 
-Fill in `data/import-template.csv`, then run:
+Fill in `data/import-template.csv` (the `city` column is optional), then run:
 
 ```
 wp flhist import path/to/file.csv --dry-run

@@ -217,3 +217,8 @@ Built steps 1 to 11 (the importer was built early, in step 2). Screenshots are i
 - Is Diana Friedman's "2012, 2013" a two-year term like the others?
 - Hawthorne Phillips is listed as 1960 to 1961. The brief said the list starts in 1961. Which is right?
 - Does the live site have ACF, and which theme and page builder does it use?
+
+## Post-checkpoint changes (round 2)
+- Every entry now opens the dialog (compact ones say "Details", rich ones "Read more"), so Previous/Next steps through all 50 chairs. Cards for compact entries are unchanged.
+- New `City` field (`flhist_city`, optional, in the search blob, shown beside the badge). Importer has an optional `city` column. The 50 real chairs had the city moved out of the summary; their summary is now "Section Chair." and the real seed CSV was updated.
+- Jump bar tracks a pinned header: a scroll listener finds the fixed/sticky element at the top edge (theme-agnostic) and sets `--flhist-header-offset`; the bar's `top` is sticky-offset plus that. Verified on sbotfam.test: bar sits flush under the fixed header (131px). The header hiding on scroll-up/down was not reproducible in headless Chromium, so that half is untested. Check in a real browser.

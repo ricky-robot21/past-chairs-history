@@ -109,6 +109,13 @@ class FLHist_Fields {
 					'instructions' => __( 'Optional. Replaces the years shown on the card. Example: 2019 to 2020 (co-chairs).', 'flhist' ),
 				),
 				array(
+					'key'          => 'field_flhist_city',
+					'label'        => __( 'City', 'flhist' ),
+					'name'         => 'flhist_city',
+					'type'         => 'text',
+					'instructions' => __( 'Optional. The chair\'s city, such as Lubbock. It shows on the card and can be searched.', 'flhist' ),
+				),
+				array(
 					'key'          => 'field_flhist_snippet',
 					'label'        => __( 'Short summary', 'flhist' ),
 					'name'         => 'flhist_snippet',

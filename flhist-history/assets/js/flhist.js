@@ -188,9 +188,47 @@
 			}
 		} );
 
+		/*
+		 * Many themes pin a header to the top of the screen, and some hide it when you scroll down
+		 * and show it again when you scroll up. A pinned header would cover the bar. So look at
+		 * what is fixed at the top edge right now, and keep the bar just below it. This works with
+		 * any theme because it checks the page, not a theme class name.
+		 */
+		function headerBottom() {
+			var el = document.elementFromPoint( Math.round( window.innerWidth / 2 ), 2 );
+			while ( el && el !== document.body && el !== document.documentElement ) {
+				if ( ! root.contains( el ) ) {
+					var position = window.getComputedStyle( el ).position;
+					if ( 'fixed' === position || 'sticky' === position ) {
+						return Math.max( 0, Math.round( el.getBoundingClientRect().bottom ) );
+					}
+				}
+				el = el.parentElement;
+			}
+			return 0;
+		}
+
+		var headerTimer = null;
+		var lastHeader = -1;
+		function trackHeader() {
+			var bottom = headerBottom();
+			if ( bottom !== lastHeader ) {
+				lastHeader = bottom;
+				root.style.setProperty( '--flhist-header-offset', bottom + 'px' );
+			}
+		}
+
+		function scheduleHeader() {
+			trackHeader();
+			window.clearTimeout( headerTimer );
+			headerTimer = window.setTimeout( trackHeader, 320 ); // Once more after a slide animation ends.
+		}
+
 		measure();
 		observe();
+		window.addEventListener( 'scroll', scheduleHeader, { passive: true } );
 		window.addEventListener( 'resize', function () {
+			scheduleHeader();
 			measure();
 			observe();
 		} );
@@ -425,13 +463,13 @@
 		var saved = null; // Page styles saved while the dialog is open.
 		var titleId = 'flhist-dialog-title-' + ( ++dialogCount );
 
-		function richEntries() {
-			return all( root, '.flhist-entry--rich' );
+		function allEntries() {
+			return all( root, '.flhist-entry' );
 		}
 
 		// Entries the visitor can step through: the ones not filtered out, plus the one on screen.
 		function steppable() {
-			return richEntries().filter( function ( entry ) {
+			return allEntries().filter( function ( entry ) {
 				return ! entry.hidden || entry === current;
 			} );
 		}
@@ -575,8 +613,8 @@
 		function openFromHash() {
 			var id = window.location.hash.slice( 1 );
 			var entry = 0 === id.indexOf( 'entry-' ) ? document.getElementById( id ) : null;
-			var rich = entry && root.contains( entry ) && entry.classList.contains( 'flhist-entry--rich' );
-			if ( ! rich ) {
+			var openable = entry && root.contains( entry ) && entry.classList.contains( 'flhist-entry' );
+			if ( ! openable ) {
 				if ( dialog.open ) {
 					dialog.close(); // The address now points somewhere else.
 				}

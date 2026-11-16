@@ -30,6 +30,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<p class="flhist-card__meta">
 			<span class="flhist-card__year"><?php echo esc_html( $e['date_label'] ); ?></span>
 			<span class="flhist-badge flhist-badge--<?php echo esc_attr( $e['type_slug'] ); ?>"><?php echo esc_html( $e['type'] ); ?></span>
+			<?php if ( '' !== $e['city'] ) : ?>
+				<span class="flhist-card__city"><?php echo esc_html( $e['city'] ); ?></span>
+			<?php endif; ?>
 		</p>
 		<h2 class="flhist-detail__title" data-flhist-title><?php echo esc_html( $e['title'] ); ?></h2>
 	</div>

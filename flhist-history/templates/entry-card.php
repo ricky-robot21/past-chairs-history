@@ -35,21 +35,21 @@ $has_photo = (bool) $e['thumb_id'];
 			<p class="flhist-card__meta">
 				<span class="flhist-card__year"><?php echo esc_html( $e['date_label'] ); ?></span>
 				<span class="flhist-badge flhist-badge--<?php echo esc_attr( $e['type_slug'] ); ?>"><?php echo esc_html( $e['type'] ); ?></span>
+				<?php if ( '' !== $e['city'] ) : ?>
+					<span class="flhist-card__city"><?php echo esc_html( $e['city'] ); ?></span>
+				<?php endif; ?>
 			</p>
 			<h3 class="flhist-card__title"><?php echo esc_html( $e['title'] ); ?></h3>
 			<?php if ( '' !== $e['snippet'] ) : ?>
 				<p class="flhist-card__snippet"><?php echo esc_html( $e['snippet'] ); ?></p>
 			<?php endif; ?>
-			<?php if ( $e['is_rich'] ) : ?>
+			<?php // Every entry opens a dialog, so a visitor can step through all of them. ?>
 				<button type="button" class="flhist-button" data-flhist-open aria-haspopup="dialog">
-					<?php esc_html_e( 'Read more', 'flhist' ); ?>
+					<?php echo esc_html( $e['is_rich'] ? __( 'Read more', 'flhist' ) : __( 'Details', 'flhist' ) ); ?>
 					<span class="flhist-sr"><?php echo esc_html( ' ' . sprintf( /* translators: %s: entry name */ __( 'about %s', 'flhist' ), $e['title'] ) ); ?></span>
 				</button>
-			<?php endif; ?>
 		</div>
 	</article>
-	<?php if ( $e['is_rich'] ) : ?>
-		<?php // Inert until the dialog opens, so photos and text inside do not load with the page. ?>
-		<template data-flhist-detail><?php echo FLHist_Render::template( 'entry-detail', array( 'e' => $e ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside the template. ?></template>
-	<?php endif; ?>
+	<?php // Inert until the dialog opens, so photos and text inside do not load with the page. ?>
+	<template data-flhist-detail><?php echo FLHist_Render::template( 'entry-detail', array( 'e' => $e ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside the template. ?></template>
 </li>

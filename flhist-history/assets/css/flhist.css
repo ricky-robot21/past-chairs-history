@@ -161,7 +161,9 @@
 
 .flhist .flhist-jump {
 	position: sticky;
-	top: var(--flhist-sticky-offset, 0px);
+	/* --flhist-header-offset is set by the script when the theme's header slides in and out. */
+	top: calc(var(--flhist-sticky-offset, 0px) + var(--flhist-header-offset, 0px));
+	transition: top 0.25s ease-in-out;
 	z-index: 10;
 	margin: 0 0 var(--flhist-space);
 	background: var(--flhist-color-bar-bg);
@@ -652,4 +654,20 @@
 
 .flhist [hidden] {
 	display: none !important;
+}
+
+/* City, shown beside the years and badge. */
+.flhist .flhist-card__city {
+	color: var(--flhist-color-muted);
+}
+
+.flhist .flhist-card__city::before {
+	content: "\00b7";
+	margin-right: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flhist .flhist-jump {
+		transition: none;
+	}
 }

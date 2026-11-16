@@ -107,6 +107,7 @@ class FLHist_Render {
 		$caption = $thumb_id ? trim( wp_strip_all_tags( (string) wp_get_attachment_caption( $thumb_id ) ) ) : '';
 
 		$snippet = (string) get_post_meta( $id, 'flhist_snippet', true );
+		$city    = trim( (string) get_post_meta( $id, 'flhist_city', true ) );
 		$entry   = array(
 			'id'         => $id,
 			'slug'       => $post->post_name,
@@ -118,13 +119,14 @@ class FLHist_Render {
 			'date_label' => $label,
 			'decade'     => FLHist_Post_Types::decade_label( $start ),
 			'snippet'    => $snippet,
+			'city'       => $city,
 			'body_raw'   => $body_raw,
 			'body_html'  => $body_html,
 			'caption'    => $caption,
 			'thumb_id'   => $thumb_id,
 			'video_id'   => $video_id,
 			'docs'       => $docs,
-			// An entry with none of these is "compact": name, years, summary, nothing else.
+			// An entry with none of these is "compact": name, years, summary. It still opens a short dialog.
 			'is_rich'    => ( '' !== $body_raw || $thumb_id || $video_id || $docs ),
 		);
 		$entry['search'] = self::search_blob( $entry );
@@ -135,7 +137,7 @@ class FLHist_Render {
 	 * Lowercase, accent-free text the JS filter searches.
 	 */
 	public static function search_blob( $entry ) {
-		$text = implode( ' ', array( $entry['title'], $entry['type'], $entry['date_label'], $entry['snippet'], wp_strip_all_tags( $entry['body_raw'] ) ) );
+		$text = implode( ' ', array( $entry['title'], $entry['type'], $entry['date_label'], $entry['city'], $entry['snippet'], wp_strip_all_tags( $entry['body_raw'] ) ) );
 		$text = remove_accents( html_entity_decode( $text, ENT_QUOTES, 'UTF-8' ) );
 		$text = str_replace( array( "'", "\u{2019}", "\u{2018}", '`' ), '', $text ); // O'Brien and OBrien both match.
 		return trim( preg_replace( '/\s+/', ' ', mb_strtolower( $text ) ) );
