@@ -87,5 +87,24 @@ sort( $decades ); // The decade menu always runs oldest to newest.
 				</section>
 			<?php endforeach; ?>
 		</div>
+
+		<dialog class="flhist-dialog" data-flhist-dialog>
+			<div class="flhist-dialog__inner">
+				<div class="flhist-dialog__bar">
+					<button type="button" class="flhist-link-button flhist-dialog__close" data-flhist-close>
+						<span aria-hidden="true">&times;</span> <?php esc_html_e( 'Close', 'flhist' ); ?>
+					</button>
+				</div>
+				<div class="flhist-dialog__content" data-flhist-content></div>
+				<div class="flhist-dialog__nav">
+					<button type="button" class="flhist-button flhist-button--quiet" data-flhist-prev>
+						<span aria-hidden="true">&larr;</span> <?php esc_html_e( 'Previous', 'flhist' ); ?><span class="flhist-sr" data-flhist-prev-name></span>
+					</button>
+					<button type="button" class="flhist-button flhist-button--quiet" data-flhist-next>
+						<?php esc_html_e( 'Next', 'flhist' ); ?><span class="flhist-sr" data-flhist-next-name></span> <span aria-hidden="true">&rarr;</span>
+					</button>
+				</div>
+			</div>
+		</dialog>
 	<?php endif; ?>
 </div>

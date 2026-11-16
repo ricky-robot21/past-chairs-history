@@ -93,6 +93,16 @@ class FLHist_Render {
 			);
 		}
 
+		// Full text and photo caption are only needed for the dialog.
+		$body_html = '';
+		if ( '' !== $body_raw ) {
+			$GLOBALS['post'] = $post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- content filters expect a current post.
+			setup_postdata( $post );
+			$body_html = apply_filters( 'the_content', $body_raw );
+			wp_reset_postdata();
+		}
+		$caption = $thumb_id ? trim( wp_strip_all_tags( (string) wp_get_attachment_caption( $thumb_id ) ) ) : '';
+
 		$snippet = (string) get_post_meta( $id, 'flhist_snippet', true );
 		$entry   = array(
 			'id'         => $id,
@@ -106,6 +116,8 @@ class FLHist_Render {
 			'decade'     => FLHist_Post_Types::decade_label( $start ),
 			'snippet'    => $snippet,
 			'body_raw'   => $body_raw,
+			'body_html'  => $body_html,
+			'caption'    => $caption,
 			'thumb_id'   => $thumb_id,
 			'video_id'   => $video_id,
 			'docs'       => $docs,

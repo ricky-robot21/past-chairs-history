@@ -1,7 +1,7 @@
 /*
  * Past Chairs History Timeline
  * Plain JavaScript. No jQuery, no build step.
- * Step 5: decade jump bar. Step 6: search, filters, sort. The entry dialog (step 8) is added below.
+ * Step 5: decade jump bar. Step 6: search, filters, sort. Step 8: entry dialog.
  */
 ( function () {
 	'use strict';
@@ -336,9 +336,202 @@
 		}
 	}
 
+	/* ------------------------------------------------------------ Entry dialog */
+
+	var dialogCount = 0;
+
+	/**
+	 * Opens an entry in a native <dialog>. The content is copied from the entry's
+	 * <template>. The video player is added on open and removed on close.
+	 */
+	function initDialog( root ) {
+		var dialog = root.querySelector( '[data-flhist-dialog]' );
+		var buttons = all( root, '[data-flhist-open]' );
+		if ( ! dialog ) {
+			return;
+		}
+		if ( 'function' !== typeof dialog.showModal ) {
+			// Very old browsers: hide the buttons rather than show ones that do nothing.
+			buttons.forEach( function ( button ) {
+				button.hidden = true;
+			} );
+			return;
+		}
+
+		var content = dialog.querySelector( '[data-flhist-content]' );
+		var prevButton = dialog.querySelector( '[data-flhist-prev]' );
+		var nextButton = dialog.querySelector( '[data-flhist-next]' );
+		var current = null; // The entry now shown.
+		var opener = null; // The button that opened the dialog.
+		var saved = null; // Page styles saved while the dialog is open.
+		var titleId = 'flhist-dialog-title-' + ( ++dialogCount );
+
+		function richEntries() {
+			return all( root, '.flhist-entry--rich' );
+		}
+
+		// Entries the visitor can step through: the ones not filtered out, plus the one on screen.
+		function steppable() {
+			return richEntries().filter( function ( entry ) {
+				return ! entry.hidden || entry === current;
+			} );
+		}
+
+		function nameOf( entry ) {
+			var title = entry && entry.querySelector( '.flhist-card__title' );
+			return title ? title.textContent : '';
+		}
+
+		function addPlayer( holder ) {
+			var id = holder.getAttribute( 'data-flhist-video' );
+			if ( ! id ) {
+				return;
+			}
+			var frame = document.createElement( 'iframe' );
+			frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent( id ) + '?rel=0';
+			frame.title = holder.getAttribute( 'data-title' ) || '';
+			frame.setAttribute( 'allow', 'encrypted-media; picture-in-picture; fullscreen' );
+			frame.setAttribute( 'allowfullscreen', '' );
+			frame.setAttribute( 'referrerpolicy', 'strict-origin-when-cross-origin' );
+			holder.appendChild( frame );
+		}
+
+		function setHash( entry ) {
+			if ( window.history && window.history.replaceState ) {
+				window.history.replaceState( null, '', window.location.pathname + window.location.search + ( entry ? '#' + entry.id : '' ) );
+			}
+		}
+
+		function updateNav() {
+			var list = steppable();
+			var index = list.indexOf( current );
+			var before = index > 0 ? list[ index - 1 ] : null;
+			var after = index > -1 && index < list.length - 1 ? list[ index + 1 ] : null;
+			prevButton.disabled = ! before;
+			nextButton.disabled = ! after;
+			prevButton.querySelector( '[data-flhist-prev-name]' ).textContent = before ? ': ' + nameOf( before ) : '';
+			nextButton.querySelector( '[data-flhist-next-name]' ).textContent = after ? ': ' + nameOf( after ) : '';
+		}
+
+		function lockPage() {
+			if ( saved ) {
+				return;
+			}
+			var scrollbar = window.innerWidth - document.documentElement.clientWidth;
+			saved = { overflow: document.body.style.overflow, padding: document.body.style.paddingRight };
+			document.body.style.overflow = 'hidden';
+			if ( scrollbar > 0 ) {
+				document.body.style.paddingRight = scrollbar + 'px';
+			}
+		}
+
+		function unlockPage() {
+			if ( saved ) {
+				document.body.style.overflow = saved.overflow;
+				document.body.style.paddingRight = saved.padding;
+				saved = null;
+			}
+		}
+
+		function show( entry, moveFocus ) {
+			var template = entry.querySelector( 'template[data-flhist-detail]' );
+			if ( ! template ) {
+				return;
+			}
+			content.textContent = ''; // Removes any video player from the last entry.
+			content.appendChild( template.content.cloneNode( true ) );
+
+			var title = content.querySelector( '[data-flhist-title]' );
+			if ( title ) {
+				title.id = titleId;
+				title.setAttribute( 'tabindex', '-1' );
+				dialog.setAttribute( 'aria-labelledby', titleId );
+			}
+			all( content, '[data-flhist-video]' ).forEach( addPlayer );
+
+			current = entry;
+			content.scrollTop = 0;
+			updateNav();
+			setHash( entry );
+
+			if ( ! dialog.open ) {
+				lockPage();
+				dialog.showModal();
+			} else if ( moveFocus && title ) {
+				title.focus();
+			}
+		}
+
+		function step( direction ) {
+			var list = steppable();
+			var target = list[ list.indexOf( current ) + direction ];
+			if ( target ) {
+				show( target, true );
+			}
+		}
+
+		// Runs for every way of closing: Escape, the Close button, or a click outside.
+		dialog.addEventListener( 'close', function () {
+			if ( dialog.open ) {
+				return; // Opened again before this event ran.
+			}
+			content.textContent = ''; // Stops the video.
+			unlockPage();
+			setHash( null );
+			var back = current && ! current.hidden ? current.querySelector( '[data-flhist-open]' ) : null;
+			if ( back || opener ) {
+				( back || opener ).focus();
+			}
+			current = null;
+		} );
+
+		dialog.addEventListener( 'click', function ( event ) {
+			if ( event.target === dialog ) {
+				dialog.close(); // Click on the dark area around the box.
+			}
+		} );
+		dialog.querySelector( '[data-flhist-close]' ).addEventListener( 'click', function () {
+			dialog.close();
+		} );
+		prevButton.addEventListener( 'click', function () {
+			step( -1 );
+		} );
+		nextButton.addEventListener( 'click', function () {
+			step( 1 );
+		} );
+
+		root.addEventListener( 'click', function ( event ) {
+			var button = event.target.closest( '[data-flhist-open]' );
+			if ( ! button ) {
+				return;
+			}
+			opener = button;
+			show( button.closest( '.flhist-entry' ), false );
+		} );
+
+		/* Links like #entry-sample-chair-2008 open the entry. */
+		function openFromHash() {
+			var id = window.location.hash.slice( 1 );
+			var entry = 0 === id.indexOf( 'entry-' ) ? document.getElementById( id ) : null;
+			var rich = entry && root.contains( entry ) && entry.classList.contains( 'flhist-entry--rich' );
+			if ( ! rich ) {
+				if ( dialog.open ) {
+					dialog.close(); // The address now points somewhere else.
+				}
+				return;
+			}
+			if ( entry !== current ) {
+				show( entry, true );
+			}
+		}
+		window.addEventListener( 'hashchange', openFromHash );
+		openFromHash();
+	}
+
 	function init( root ) {
 		var jump = initJumpBar( root );
 		initFilters( root, jump );
+		initDialog( root );
 		root.flhist = { jump: jump };
 	}
 

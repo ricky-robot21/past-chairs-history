@@ -41,7 +41,6 @@ $has_photo = (bool) $e['thumb_id'];
 				<p class="flhist-card__snippet"><?php echo esc_html( $e['snippet'] ); ?></p>
 			<?php endif; ?>
 			<?php if ( $e['is_rich'] ) : ?>
-				<?php /* The dialog opens from this button in step 8. */ ?>
 				<button type="button" class="flhist-button" data-flhist-open aria-haspopup="dialog">
 					<?php esc_html_e( 'Read more', 'flhist' ); ?>
 					<span class="flhist-sr"><?php echo esc_html( ' ' . sprintf( /* translators: %s: entry name */ __( 'about %s', 'flhist' ), $e['title'] ) ); ?></span>
@@ -49,4 +48,8 @@ $has_photo = (bool) $e['thumb_id'];
 			<?php endif; ?>
 		</div>
 	</article>
+	<?php if ( $e['is_rich'] ) : ?>
+		<?php // Inert until the dialog opens, so photos and text inside do not load with the page. ?>
+		<template data-flhist-detail><?php echo FLHist_Render::template( 'entry-detail', array( 'e' => $e ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside the template. ?></template>
+	<?php endif; ?>
 </li>

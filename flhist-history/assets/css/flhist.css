@@ -20,6 +20,7 @@
 	--flhist-color-milestone: #03466b;
 	--flhist-color-spine: #a32327;
 	--flhist-color-bar-bg: #fefcf2;
+	--flhist-color-backdrop: rgba(0, 42, 77, 0.75);
 	--flhist-radius: 0;
 	--flhist-space: 1rem;
 	--flhist-spine-width: 3px;
@@ -355,9 +356,191 @@
 	border-radius: var(--flhist-radius);
 }
 
+/* ---------------------------------------------------------------- Entry dialog */
+
+.flhist .flhist-dialog {
+	box-sizing: border-box;
+	width: calc(100% - 1.5rem);
+	max-width: 50rem;
+	max-height: calc(100vh - 1.5rem);
+	max-height: calc(100dvh - 1.5rem);
+	margin: auto;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	border-radius: var(--flhist-radius);
+	background: var(--flhist-color-surface);
+	color: var(--flhist-color-text);
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.flhist .flhist-dialog::backdrop {
+	background: var(--flhist-color-backdrop);
+}
+
+.flhist .flhist-dialog__inner {
+	display: flex;
+	flex-direction: column;
+	max-height: inherit;
+	max-height: calc(100vh - 1.5rem);
+	max-height: calc(100dvh - 1.5rem);
+}
+
+.flhist .flhist-dialog__bar {
+	display: flex;
+	flex: 0 0 auto;
+	justify-content: flex-end;
+	padding: 0.25rem var(--flhist-space);
+	border-bottom: 1px solid var(--flhist-color-border);
+}
+
+.flhist .flhist-dialog__close {
+	display: inline-flex;
+	gap: 0.35rem;
+	align-items: center;
+	min-height: 2.75rem;
+	padding-block: 0;
+	text-decoration: none;
+}
+
+.flhist .flhist-dialog__close span[aria-hidden] {
+	font-size: 1.6rem;
+	line-height: 1;
+}
+
+.flhist .flhist-dialog__content {
+	flex: 1 1 auto;
+	padding: var(--flhist-space);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.flhist .flhist-dialog__nav {
+	display: flex;
+	flex: 0 0 auto;
+	gap: var(--flhist-space);
+	justify-content: space-between;
+	padding: 0.75rem var(--flhist-space);
+	border-top: 1px solid var(--flhist-color-border);
+	background: var(--flhist-color-surface);
+}
+
+.flhist .flhist-dialog__nav .flhist-button {
+	margin-top: 0;
+}
+
+.flhist .flhist-button--quiet {
+	background: var(--flhist-color-surface);
+	color: var(--flhist-color-accent);
+}
+
+.flhist .flhist-button[disabled] {
+	border-color: var(--flhist-color-border);
+	background: var(--flhist-color-surface);
+	color: var(--flhist-color-muted);
+	cursor: not-allowed;
+}
+
+.flhist .flhist-detail__figure {
+	margin: 0 0 var(--flhist-space);
+}
+
+.flhist .flhist-detail__img {
+	display: block;
+	width: 100%;
+	max-height: 50vh;
+	height: auto;
+	object-fit: contain;
+	object-position: left top;
+	border-radius: calc(var(--flhist-radius) / 2);
+}
+
+.flhist .flhist-detail__caption {
+	margin-top: 0.5rem;
+	color: var(--flhist-color-muted);
+	font-size: 0.9rem;
+}
+
+.flhist .flhist-detail__title {
+	margin: 0 0 var(--flhist-space);
+	font-family: var(--flhist-font-heading);
+	font-size: 1.75rem;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: var(--flhist-color-text);
+}
+
+.flhist .flhist-detail__title:focus {
+	outline: none;
+}
+
+.flhist .flhist-detail__lead,
+.flhist .flhist-detail__body {
+	margin: 0 0 var(--flhist-space);
+}
+
+.flhist .flhist-detail__body > :first-child {
+	margin-top: 0;
+}
+
+.flhist .flhist-detail__body img {
+	max-width: 100%;
+	height: auto;
+}
+
+.flhist .flhist-detail__video {
+	margin: 0 0 var(--flhist-space);
+	aspect-ratio: 16 / 9;
+	background: #000;
+}
+
+.flhist .flhist-detail__video iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.flhist .flhist-detail__docs-title {
+	margin: 0 0 0.5rem;
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.flhist .flhist-detail__docs-list {
+	margin: 0;
+	padding-left: 1.25rem;
+}
+
+.flhist .flhist-detail__docs-list a {
+	color: var(--flhist-color-accent);
+	font-weight: 700;
+}
+
+.flhist .flhist-detail__docs-list a:hover {
+	color: var(--flhist-color-accent-hover);
+}
+
+.flhist .flhist-detail__docs-meta {
+	color: var(--flhist-color-muted);
+	font-size: 0.9rem;
+}
+
 /* ---------------------------------------------------------------- 640px and up */
 
 @media (min-width: 640px) {
+	.flhist .flhist-dialog__content {
+		padding: calc(var(--flhist-space) * 1.5);
+	}
+
+	.flhist .flhist-detail__title {
+		font-size: 2.25rem;
+	}
+
 	.flhist .flhist-toolbar {
 		grid-template-columns: 1fr 1fr;
 		align-items: end;

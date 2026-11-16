@@ -106,3 +106,15 @@ The current-decade highlight now watches a thin band just below the sticky heade
 ### Testing note
 
 The browser pane in this tool does not draw frames until a screenshot is taken, which delays `IntersectionObserver` callbacks. A scripted scroll test can show no highlight until a frame is drawn. It worked once a frame was drawn.
+
+## Step 8: entry dialog
+
+- **Native `<dialog>`** opened with `showModal()`. One dialog per timeline. It closes on Escape, the visible Close button, and a click on the dark area. Focus starts on Close, stays inside while open (native), and returns to the entry's "Read more" button on close. The page behind is locked from scrolling, with the scrollbar width kept so the page does not jump.
+- **Content** sits in a `<template>` inside each rich entry and is copied in on open, so photos and text do not load with the page. The dialog title is the H2 and PDF list heading is an H3, as in the spec.
+- **Video:** no iframe exists until the dialog opens. It uses `youtube-nocookie.com`, 16:9, with a title. The iframe is removed on close or when stepping to another entry, which stops playback. No request to YouTube happens before then.
+- **PDFs:** label, "(PDF, 609 B)" with type and size, new tab with `rel="noopener"`, and hidden text saying it opens in a new tab.
+- **Photo caption** comes from the media library caption field. Photo alt comes from the alt field. A photo with no alt text shows as `alt=""`, which screen readers skip. That is the missing-alt case flagged in the admin.
+- **Previous and Next** step through the entries the filters currently show, in the order on the page (so Newest first reverses them). Only entries with a dialog are included, since compact entries have no "Read more". Buttons disable at each end, and carry the neighbor's name for screen readers. After stepping, focus moves to the new title so the change is announced. This is a decision to confirm: stepping skips compact entries, so on the real data (all compact for now) it has nothing to step through.
+- **Deep links:** opening sets `#entry-slug` without scrolling or adding history entries. Closing clears it. Loading a page with that hash opens the dialog. Changing the hash while open switches entry, and a hash that points somewhere else closes it. A hash for a compact entry scrolls to the card as normal.
+- **Tested in the browser:** open, Escape, Close button, backdrop click, focus return, video present only while open, Previous and Next with filters, deep link on load, hash change while open, and the 375 px layout (content scrolls inside the box, Previous and Next stay in view).
+- **Browser pane quirk again:** `close` events fire late in this pane until a frame is drawn, which exposed a re-entry bug when a script opened and closed fast. Fixed with two small guards. Real use is not affected.
