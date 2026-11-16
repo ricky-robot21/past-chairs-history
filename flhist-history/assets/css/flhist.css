@@ -267,13 +267,18 @@
 }
 
 .flhist .flhist-card__media {
+	max-width: 10rem;
 	margin: 0;
 }
 
+/* Every card photo gets the same shape, so a tall or wide photo cannot stretch the card. The dialog shows the whole photo. */
 .flhist .flhist-card__img {
 	display: block;
 	width: 100%;
 	height: auto;
+	aspect-ratio: 4 / 5;
+	object-fit: cover;
+	object-position: center top;
 	border-radius: calc(var(--flhist-radius) / 2);
 }
 
@@ -311,6 +316,7 @@
 }
 
 .flhist .flhist-card__title {
+	overflow-wrap: anywhere;
 	margin: 0;
 	font-family: var(--flhist-font-heading);
 	font-size: 1.15rem;
@@ -322,6 +328,7 @@
 }
 
 .flhist .flhist-card__snippet {
+	overflow-wrap: anywhere;
 	margin: 0.35rem 0 0;
 	color: var(--flhist-color-text);
 }
@@ -447,7 +454,8 @@
 
 .flhist .flhist-detail__img {
 	display: block;
-	width: 100%;
+	width: auto; /* A small photo stays small instead of stretching blurry. */
+	max-width: 100%;
 	max-height: 50vh;
 	height: auto;
 	object-fit: contain;
@@ -462,6 +470,7 @@
 }
 
 .flhist .flhist-detail__title {
+	overflow-wrap: anywhere;
 	margin: 0 0 var(--flhist-space);
 	font-family: var(--flhist-font-heading);
 	font-size: 1.75rem;
@@ -485,9 +494,24 @@
 	margin-top: 0;
 }
 
-.flhist .flhist-detail__body img {
+.flhist .flhist-detail__body {
+	overflow-wrap: anywhere;
+}
+
+.flhist .flhist-detail__body img,
+.flhist .flhist-detail__body iframe,
+.flhist .flhist-detail__body video,
+.flhist .flhist-detail__body table {
 	max-width: 100%;
+}
+
+.flhist .flhist-detail__body img {
 	height: auto;
+}
+
+.flhist .flhist-detail__body table {
+	display: block;
+	overflow-x: auto;
 }
 
 .flhist .flhist-detail__video {
@@ -562,6 +586,10 @@
 	.flhist .flhist-card--has-photo {
 		grid-template-columns: 9rem 1fr;
 		align-items: start;
+	}
+
+	.flhist .flhist-card__media {
+		max-width: none;
 	}
 
 	.flhist .flhist-card {

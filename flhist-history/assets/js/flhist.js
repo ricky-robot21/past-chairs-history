@@ -12,6 +12,25 @@
 		return Array.prototype.slice.call( parent.querySelectorAll( selector ) );
 	}
 
+	/* ------------------------------------------------------------ Broken photos */
+
+	// If a photo file is missing, drop the empty photo box instead of showing a broken image.
+	function watchImage( img, box, card ) {
+		function failed() {
+			if ( box && box.parentNode ) {
+				box.parentNode.removeChild( box );
+			}
+			if ( card ) {
+				card.classList.remove( 'flhist-card--has-photo' );
+			}
+		}
+		if ( img.complete && 0 === img.naturalWidth && img.getAttribute( 'src' ) ) {
+			failed();
+		} else {
+			img.addEventListener( 'error', failed );
+		}
+	}
+
 	/* ------------------------------------------------------------ Jump bar */
 
 	/**
@@ -168,6 +187,7 @@
 		if ( out.normalize ) {
 			out = out.normalize( 'NFD' ).replace( /[\u0300-\u036f]/g, '' );
 		}
+		out = out.replace( /['\u2018\u2019`]/g, '' ); // O'Brien and OBrien both match.
 		return out.replace( /\s+/g, ' ' ).trim();
 	}
 
@@ -448,6 +468,9 @@
 				dialog.setAttribute( 'aria-labelledby', titleId );
 			}
 			all( content, '[data-flhist-video]' ).forEach( addPlayer );
+			all( content, '.flhist-detail__img' ).forEach( function ( img ) {
+				watchImage( img, img.closest( '.flhist-detail__figure' ), null );
+			} );
 
 			current = entry;
 			content.scrollTop = 0;
@@ -529,6 +552,9 @@
 	}
 
 	function init( root ) {
+		all( root, '.flhist-card__img' ).forEach( function ( img ) {
+			watchImage( img, img.closest( '.flhist-card__media' ), img.closest( '.flhist-card' ) );
+		} );
 		var jump = initJumpBar( root );
 		initFilters( root, jump );
 		initDialog( root );

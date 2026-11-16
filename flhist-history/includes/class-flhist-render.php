@@ -74,6 +74,9 @@ class FLHist_Render {
 
 		$body_raw = trim( (string) $post->post_content );
 		$thumb_id = (int) get_post_thumbnail_id( $id );
+		if ( $thumb_id && ! wp_get_attachment_image_url( $thumb_id, 'medium' ) ) {
+			$thumb_id = 0; // The photo was deleted or its file is missing. Do not show an empty box.
+		}
 		$video_id = FLHist_Fields::youtube_id( get_post_meta( $id, 'flhist_video_url', true ) );
 
 		$docs = array();
@@ -134,6 +137,7 @@ class FLHist_Render {
 	public static function search_blob( $entry ) {
 		$text = implode( ' ', array( $entry['title'], $entry['type'], $entry['date_label'], $entry['snippet'], wp_strip_all_tags( $entry['body_raw'] ) ) );
 		$text = remove_accents( html_entity_decode( $text, ENT_QUOTES, 'UTF-8' ) );
+		$text = str_replace( array( "'", "\u{2019}", "\u{2018}", '`' ), '', $text ); // O'Brien and OBrien both match.
 		return trim( preg_replace( '/\s+/', ' ', mb_strtolower( $text ) ) );
 	}
 
@@ -192,6 +196,15 @@ class FLHist_Render {
 		self::enqueue();
 
 		$entries = array_map( array( __CLASS__, 'prepare' ), self::get_posts() );
+		// An entry with no start year cannot be placed on the timeline. Leave it out until it has one.
+		$entries = array_values(
+			array_filter(
+				$entries,
+				function ( $entry ) {
+					return $entry['year_start'] > 0;
+				}
+			)
+		);
 		return self::template(
 			'timeline',
 			array(

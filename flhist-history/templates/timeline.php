@@ -16,6 +16,7 @@ $decades = array_keys( $groups );
 sort( $decades ); // The decade menu always runs oldest to newest.
 ?>
 <div class="flhist" data-flhist data-order="<?php echo esc_attr( $order ); ?>">
+	<noscript><style>.flhist [data-flhist-toolbar], .flhist [data-flhist-open], .flhist [data-flhist-jump] { display: none; }</style></noscript>
 	<?php if ( ! $groups ) : ?>
 		<p class="flhist-empty"><?php esc_html_e( 'No history entries yet.', 'flhist' ); ?></p>
 	<?php else : ?>

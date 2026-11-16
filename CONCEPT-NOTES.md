@@ -118,3 +118,27 @@ The browser pane in this tool does not draw frames until a screenshot is taken, 
 - **Deep links:** opening sets `#entry-slug` without scrolling or adding history entries. Closing clears it. Loading a page with that hash opens the dialog. Changing the hash while open switches entry, and a hash that points somewhere else closes it. A hash for a compact entry scrolls to the card as normal.
 - **Tested in the browser:** open, Escape, Close button, backdrop click, focus return, video present only while open, Previous and Next with filters, deep link on load, hash change while open, and the 375 px layout (content scrolls inside the box, Previous and Next stay in view).
 - **Browser pane quirk again:** `close` events fire late in this pane until a frame is drawn, which exposed a re-entry bug when a script opened and closed fast. Fixed with two small guards. Real use is not affected.
+
+## Step 9: edge cases and media checks
+
+Tested with 10 temporary entries (since deleted): a very long name with accents and an apostrophe, photo only (40px), video only, PDF only with a long label, a wide photo with a long unbroken URL and a table in the body, a very tall photo, a photo whose file was deleted, an entry with no summary, a non-YouTube video link, and an entry with no year.
+
+Fixed:
+- **Tall photos stretched the card** to 1450px. Card photos now share one shape (4:5, cropped from the top, max 10rem wide on phones). The dialog still shows the whole photo.
+- **Small photos stretched blurry** in the dialog. They now keep their size.
+- **Missing photo file** left a broken image box. If the image fails to load, the script removes the box on the card, and the figure in the dialog.
+- **Long words and URLs** now wrap in card titles, summaries, dialog titles, and body text. Wide images, iframes, and tables in the body fit inside the dialog.
+- **Entries with no start year** are left off the timeline. They would have made a blank decade section. The year field is required in the admin, so this only happens through imports or direct database edits.
+- **Names with an apostrophe** match with or without it ("obrien" and "o'brien" both find O'Brien). Accents were already ignored.
+- **Without JavaScript** the toolbar, jump bar, and Read more buttons are hidden (they would do nothing). The cards and decade headings still read as a plain list. Rich entries lose their detail view in that case. Acceptable for this audience, but worth knowing.
+
+Checked and fine as built:
+- Entry with no summary shows name and years only, no empty paragraph.
+- Video-only, PDF-only, and photo-only entries each open a dialog that shows the summary as lead text.
+- A saved non-YouTube video link shows no video and the entry stays compact.
+- Compact entries have no photo box, no button, and no extra space.
+
+Known limits, not fixed:
+- **Two timelines on one page** would repeat the decade anchor ids. The dialog ids are unique. Not expected.
+- **Tiny photos** (about 40px) get upscaled and look soft on the card. The README for the committee should say photos should be at least 400px wide.
+- **Photo files stored off the server** (offloaded media) work, because the check is "does the image load", not "does the file exist on disk".
