@@ -227,3 +227,6 @@ Built steps 1 to 11 (the importer was built early, in step 2). Screenshots are i
 - Fixed an importer bug found while testing: a CSV without the optional columns (body, video_url, and so on) reported a false "not a YouTube link" error. All columns now default to blank.
 
 - Round 3: arrow keys step through entries in the dialog (ignored in inputs and the video); Copy link button with a polite status message; print stylesheet (hides toolbar, bar, buttons, photos); admin warning for photos under 400px wide. Tested in Chromium: keys, clipboard, print media. The size warning is untested in a live edit screen (needs a login), code only.
+
+- Cache-busting: asset version is now plugin version plus file modified time, so browsers refetch CSS/JS after any change. No manual bump needed.
+- Cross-browser (Playwright WebKit and Firefox, 375 and 1280): no errors, no overflow, search, type filter, dialog, arrow keys, Escape, sticky bar all work. Real Safari on iPhone and Edge still unchecked.

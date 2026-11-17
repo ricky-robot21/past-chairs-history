@@ -31,8 +31,20 @@ class FLHist_Render {
 	 * stores shortcodes outside post content still gets the styles.
 	 */
 	public static function enqueue() {
-		wp_enqueue_style( 'flhist', FLHIST_URL . 'assets/css/flhist.css', array(), FLHIST_VERSION );
-		wp_enqueue_script( 'flhist', FLHIST_URL . 'assets/js/flhist.js', array(), FLHIST_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+		wp_enqueue_style( 'flhist', FLHIST_URL . 'assets/css/flhist.css', array(), self::asset_version( 'assets/css/flhist.css' ) );
+		wp_enqueue_script( 'flhist', FLHIST_URL . 'assets/js/flhist.js', array(), self::asset_version( 'assets/js/flhist.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	}
+
+	/**
+	 * Version string for an asset: the plugin version plus the file's modified time.
+	 * Browsers fetch a fresh copy whenever the file changes, with no manual version bump.
+	 *
+	 * @param string $file Path inside the plugin folder.
+	 * @return string
+	 */
+	private static function asset_version( $file ) {
+		$time = @filemtime( FLHIST_DIR . $file ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- a missing file just falls back to the plugin version.
+		return $time ? FLHIST_VERSION . '.' . $time : FLHIST_VERSION;
 	}
 
 	/**
