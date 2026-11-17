@@ -230,3 +230,5 @@ Built steps 1 to 11 (the importer was built early, in step 2). Screenshots are i
 
 - Cache-busting: asset version is now plugin version plus file modified time, so browsers refetch CSS/JS after any change. No manual bump needed.
 - Cross-browser (Playwright WebKit and Firefox, 375 and 1280): no errors, no overflow, search, type filter, dialog, arrow keys, Escape, sticky bar all work. Real Safari on iPhone and Edge still unchecked.
+
+- Committee walkthrough on sbotfam.test (admin, Playwright): added a Chair with name, years, city, summary and published. It appeared in 2020s with city. Publish took about 12s locally. Photo warnings (no alt text, under 400px) showed on the edit screen. Added a City column to the admin list. Wrote GUIDE-committee.md. Test entry and test photo were deleted.

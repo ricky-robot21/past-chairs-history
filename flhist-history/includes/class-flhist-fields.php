@@ -281,6 +281,7 @@ class FLHist_Fields {
 			'flhist_type'   => __( 'Type', 'flhist' ),
 			'flhist_years'  => __( 'Years', 'flhist' ),
 			'flhist_decade' => __( 'Decade', 'flhist' ),
+			'flhist_city'   => __( 'City', 'flhist' ),
 			'flhist_photo'  => __( 'Photo', 'flhist' ),
 			'flhist_video'  => __( 'Video', 'flhist' ),
 		);
@@ -304,6 +305,10 @@ class FLHist_Fields {
 				} else {
 					echo esc_html( $start );
 				}
+				break;
+			case 'flhist_city':
+				$city = trim( (string) get_post_meta( $post_id, 'flhist_city', true ) );
+				echo '' !== $city ? esc_html( $city ) : '&ndash;';
 				break;
 			case 'flhist_photo':
 				echo has_post_thumbnail( $post_id ) ? esc_html__( 'Yes', 'flhist' ) : '&ndash;';
