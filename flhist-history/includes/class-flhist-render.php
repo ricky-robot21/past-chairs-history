@@ -239,7 +239,7 @@ class FLHist_Render {
 				}
 			)
 		);
-		return self::template(
+		$html = self::template(
 			'timeline',
 			array(
 				'groups'       => self::group_by_decade( $entries, $order ),
@@ -248,5 +248,46 @@ class FLHist_Render {
 				'count'        => count( $entries ),
 			)
 		);
+		return $html . self::structured_data( $entries );
+	}
+
+	/**
+	 * JSON-LD describing the timeline as a list, so search engines can read it.
+	 * Printed once per page, even if the shortcode is used twice.
+	 *
+	 * @param array $entries Prepared entries, oldest first.
+	 * @return string A script tag, or an empty string.
+	 */
+	private static function structured_data( $entries ) {
+		static $printed = false;
+		if ( $printed || ! $entries ) {
+			return '';
+		}
+		$printed = true;
+
+		$page  = get_permalink();
+		$page  = $page ? $page : home_url( '/' );
+		$items = array();
+		foreach ( $entries as $i => $entry ) {
+			$item = array(
+				'@type'    => 'ListItem',
+				'position' => $i + 1,
+				'name'     => $entry['title'] . ' (' . $entry['date_label'] . ')',
+				'url'      => $page . '#entry-' . $entry['slug'],
+			);
+			if ( '' !== $entry['snippet'] ) {
+				$item['description'] = $entry['snippet'];
+			}
+			$items[] = $item;
+		}
+		$data = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'ItemList',
+			'name'            => wp_strip_all_tags( get_the_title() ),
+			'itemListOrder'   => 'https://schema.org/ItemListOrderAscending',
+			'numberOfItems'   => count( $items ),
+			'itemListElement' => $items,
+		);
+		return '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP ) . '</script>';
 	}
 }

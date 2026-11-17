@@ -68,6 +68,10 @@ Options:
 
 The shortcode adds no H1. Decade headings are H2 and entry names are H3, so give the page its own H1. The CSS and JavaScript load only on pages that use the shortcode.
 
+### Search engine data and Back to top
+
+The timeline prints a small block of structured data (JSON-LD, an ItemList of every entry with its name, years, summary, and link) so search engines can read the list. It prints once per page. Page title, description, and share image for the page itself still come from the SEO plugin (Yoast on this site). Each decade ends with a **Back to top** link.
+
 ### Change the look
 
 All colors, fonts, and sizes are CSS variables on `.flhist`, at the top of `assets/css/flhist.css`. Override them in the theme or in a page's CSS:

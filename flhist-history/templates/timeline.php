@@ -15,7 +15,7 @@ $uid     = wp_unique_id( 'flhist-' );
 $decades = array_keys( $groups );
 sort( $decades ); // The decade menu always runs oldest to newest.
 ?>
-<div class="flhist" data-flhist data-order="<?php echo esc_attr( $order ); ?>">
+<div class="flhist" id="<?php echo esc_attr( $uid ); ?>-top" data-flhist data-order="<?php echo esc_attr( $order ); ?>">
 	<noscript><style>.flhist [data-flhist-toolbar], .flhist [data-flhist-open], .flhist [data-flhist-jump] { display: none; }</style></noscript>
 	<?php if ( ! $groups ) : ?>
 		<p class="flhist-empty"><?php esc_html_e( 'No history entries yet.', 'flhist' ); ?></p>
@@ -85,6 +85,7 @@ sort( $decades ); // The decade menu always runs oldest to newest.
 						}
 						?>
 					</ol>
+					<p class="flhist-decade__top"><a href="#<?php echo esc_attr( $uid ); ?>-top" data-flhist-top><?php esc_html_e( 'Back to top', 'flhist' ); ?><span class="flhist-sr"><?php echo esc_html( ' ' . sprintf( /* translators: %s: decade such as 1990s */ __( '(after the %s)', 'flhist' ), $decade ) ); ?></span></a></p>
 				</section>
 			<?php endforeach; ?>
 		</div>

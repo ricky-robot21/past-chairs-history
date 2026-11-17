@@ -234,3 +234,5 @@ Built steps 1 to 11 (the importer was built early, in step 2). Screenshots are i
 - Committee walkthrough on sbotfam.test (admin, Playwright): added a Chair with name, years, city, summary and published. It appeared in 2020s with city. Publish took about 12s locally. Photo warnings (no alt text, under 400px) showed on the edit screen. Added a City column to the admin list. Wrote GUIDE-committee.md. Test entry and test photo were deleted.
 
 - Round 4: Other years field (flhist_other_years, comma-separated four-digit years, validated, in search and year matching, importer column other_years). Photo cropping hint under the Photo box. Tested: year search matches other years, bad input rejected in the admin. Diana Friedman's entry was NOT changed. How to enter her term is still a client question.
+
+- Round 5: Back to top link at the end of each decade (moves focus to the timeline top, hidden in print, hidden with its decade when filtered). JSON-LD ItemList of all entries, printed once per page (verified valid, 50 items, alongside Yoast's graph). Per-entry links use #entry-slug, so shares of one entry show the page's title and image, not the entry's.

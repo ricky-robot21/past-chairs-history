@@ -693,6 +693,17 @@
 		all( root, '.flhist-card__img' ).forEach( function ( img ) {
 			watchImage( img, img.closest( '.flhist-card__media' ), img.closest( '.flhist-card' ) );
 		} );
+		// Back to top links: scroll to the top of the timeline and move focus there.
+		root.addEventListener( 'click', function ( event ) {
+			var link = event.target.closest( '[data-flhist-top]' );
+			if ( ! link ) {
+				return;
+			}
+			event.preventDefault();
+			root.scrollIntoView( { behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' } );
+			root.setAttribute( 'tabindex', '-1' );
+			root.focus( { preventScroll: true } );
+		} );
 		var jump = initJumpBar( root );
 		initFilters( root, jump );
 		initDialog( root );

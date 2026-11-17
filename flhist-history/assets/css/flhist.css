@@ -656,6 +656,21 @@
 	display: none !important;
 }
 
+/* Back to top link at the end of each decade. */
+.flhist .flhist-decade__top {
+	margin: 0.5rem 0 0;
+	text-align: right;
+	font-size: 0.875rem;
+}
+
+.flhist .flhist-decade__top a {
+	color: var(--flhist-color-accent);
+}
+
+.flhist:focus {
+	outline: none;
+}
+
 /* City, shown beside the years and badge. */
 .flhist .flhist-card__city {
 	color: var(--flhist-color-muted);
@@ -685,7 +700,8 @@
 	.flhist .flhist-none,
 	.flhist .flhist-dialog,
 	.flhist .flhist-button,
-	.flhist .flhist-card__media {
+	.flhist .flhist-card__media,
+	.flhist .flhist-decade__top {
 		display: none !important;
 	}
 
