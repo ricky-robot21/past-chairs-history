@@ -18,6 +18,8 @@ class FLHist_Fields {
 		add_filter( 'acf/validate_value/key=field_flhist_other_years', array( __CLASS__, 'validate_other_years' ), 10, 4 );
 		add_filter( 'acf/validate_value/key=field_flhist_video_url', array( __CLASS__, 'validate_video_url' ), 10, 4 );
 
+		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'view_link_box' ) );
+		add_filter( 'post_row_actions', array( __CLASS__, 'view_link_row' ), 10, 2 );
 		add_filter( 'admin_post_thumbnail_html', array( __CLASS__, 'photo_hint' ), 10, 2 );
 		add_action( 'admin_notices', array( __CLASS__, 'notice_acf_missing' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'notice_missing_alt' ) );
@@ -210,6 +212,40 @@ class FLHist_Fields {
 	/**
 	 * Only YouTube links are allowed.
 	 */
+	/**
+	 * "View on timeline" in the Publish box of the edit screen.
+	 */
+	public static function view_link_box( $post ) {
+		if ( ! $post || FLHist_Post_Types::POST_TYPE !== $post->post_type ) {
+			return;
+		}
+		$url = FLHist_Render::entry_url( $post );
+		echo '<div class="misc-pub-section">';
+		if ( $url ) {
+			echo '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html__( 'View on timeline', 'flhist' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'flhist' ) . '</span></a>';
+		} elseif ( 'publish' !== $post->post_status ) {
+			esc_html_e( 'Publish this entry to see it on the timeline.', 'flhist' );
+		} else {
+			esc_html_e( 'No published page has the timeline on it yet.', 'flhist' );
+		}
+		echo '</div>';
+	}
+
+	/**
+	 * "View on timeline" under each entry in the list, in place of the default View link.
+	 */
+	public static function view_link_row( $actions, $post ) {
+		if ( FLHist_Post_Types::POST_TYPE !== $post->post_type ) {
+			return $actions;
+		}
+		unset( $actions['view'] );
+		$url = FLHist_Render::entry_url( $post );
+		if ( $url ) {
+			$actions['flhist_view'] = '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html__( 'View on timeline', 'flhist' ) . '</a>';
+		}
+		return $actions;
+	}
+
 	/**
 	 * A note under the Photo box so the committee picks a suitable picture.
 	 */

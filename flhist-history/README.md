@@ -43,6 +43,7 @@ Photos and PDFs in the file must be web addresses. Tick the box to update entrie
 
 ### Things to know
 
+- **View on timeline.** The Publish box on the edit screen, and each published entry in the History Entries list, has a **View on timeline** link. It opens the page that has the `[flhist_timeline]` shortcode, at that entry. Developers can choose a different page with the `flhist_timeline_page_id` filter.
 - **Sharing and printing.** The window has a **Copy link** button, and the left and right arrow keys move between entries. Printing the page gives a clean list of years, names, and summaries without the search tools.
 - **Date label.** If the years need special wording, such as "2019 to 2020 (co-chairs)", type it in the **Date label** box. It replaces the years on the card.
 - **Entries have no page of their own.** They only show on the timeline page.

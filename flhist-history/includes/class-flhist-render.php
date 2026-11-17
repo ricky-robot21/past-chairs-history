@@ -14,6 +14,62 @@ class FLHist_Render {
 	public static function init() {
 		add_shortcode( 'flhist_timeline', array( __CLASS__, 'shortcode' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'maybe_enqueue' ) );
+		add_action( 'save_post_page', array( __CLASS__, 'forget_timeline_page' ) );
+		add_action( 'trashed_post', array( __CLASS__, 'forget_timeline_page' ) );
+	}
+
+	/**
+	 * Address of the page that shows the timeline, or an empty string if none is published.
+	 * Looks for a published page that contains the shortcode. A site can pick a page with
+	 * the flhist_timeline_page_id filter.
+	 *
+	 * @return string
+	 */
+	public static function timeline_page_url() {
+		$id = (int) apply_filters( 'flhist_timeline_page_id', 0 );
+		if ( ! $id ) {
+			$id = get_transient( 'flhist_timeline_page' );
+			if ( false === $id ) {
+				$found = get_posts(
+					array(
+						'post_type'      => 'page',
+						'post_status'    => 'publish',
+						's'              => '[flhist_timeline',
+						'posts_per_page' => 5,
+						'orderby'        => 'ID',
+						'order'          => 'ASC',
+						'fields'         => 'ids',
+						'no_found_rows'  => true,
+					)
+				);
+				$id = 0;
+				foreach ( $found as $page_id ) {
+					if ( has_shortcode( (string) get_post_field( 'post_content', $page_id ), 'flhist_timeline' ) ) {
+						$id = (int) $page_id;
+						break;
+					}
+				}
+				set_transient( 'flhist_timeline_page', $id, 12 * HOUR_IN_SECONDS );
+			}
+		}
+		$url = $id ? get_permalink( $id ) : '';
+		return $url ? $url : '';
+	}
+
+	/** Clear the remembered timeline page when any page changes. */
+	public static function forget_timeline_page() {
+		delete_transient( 'flhist_timeline_page' );
+	}
+
+	/**
+	 * Address of one entry on the timeline, or an empty string.
+	 *
+	 * @param WP_Post $post Entry.
+	 * @return string
+	 */
+	public static function entry_url( $post ) {
+		$page = self::timeline_page_url();
+		return ( $page && 'publish' === $post->post_status && '' !== $post->post_name ) ? $page . '#entry-' . $post->post_name : '';
 	}
 
 	/**

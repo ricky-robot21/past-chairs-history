@@ -13,7 +13,7 @@ For the History and Archives committee. About two minutes for a basic entry.
 7. Type a **Short summary**, one or two sentences. This is required.
 8. Click **Publish**. Publishing can take about ten seconds. Wait for the green "Post published" message.
 
-The chair now shows on the History page in the right decade. You do not choose the decade.
+The chair now shows on the History page in the right decade. You do not choose the decade. To see it, click **View on timeline** in the Publish box.
 
 ## Add more to a chair
 
