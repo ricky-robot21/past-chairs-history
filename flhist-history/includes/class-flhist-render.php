@@ -120,6 +120,7 @@ class FLHist_Render {
 
 		$snippet = (string) get_post_meta( $id, 'flhist_snippet', true );
 		$city    = trim( (string) get_post_meta( $id, 'flhist_city', true ) );
+		$transcript = trim( (string) get_post_meta( $id, 'flhist_transcript', true ) );
 		$others  = self::other_years( get_post_meta( $id, 'flhist_other_years', true ) );
 		$entry   = array(
 			'id'         => $id,
@@ -133,6 +134,8 @@ class FLHist_Render {
 			'decade'     => FLHist_Post_Types::decade_label( $start ),
 			'snippet'    => $snippet,
 			'city'       => $city,
+			'transcript' => $transcript,
+			'transcript_html' => ( '' !== $transcript && $video_id ) ? wpautop( esc_html( $transcript ) ) : '',
 			'other_years' => $others,
 			'body_raw'   => $body_raw,
 			'body_html'  => $body_html,
@@ -169,7 +172,7 @@ class FLHist_Render {
 	 * Lowercase, accent-free text the JS filter searches.
 	 */
 	public static function search_blob( $entry ) {
-		$text = implode( ' ', array( $entry['title'], $entry['type'], $entry['date_label'], implode( ' ', $entry['other_years'] ), $entry['city'], $entry['snippet'], wp_strip_all_tags( $entry['body_raw'] ) ) );
+		$text = implode( ' ', array( $entry['title'], $entry['type'], $entry['date_label'], implode( ' ', $entry['other_years'] ), $entry['city'], $entry['snippet'], wp_strip_all_tags( $entry['body_raw'] ), $entry['transcript'] ) );
 		$text = remove_accents( html_entity_decode( $text, ENT_QUOTES, 'UTF-8' ) );
 		$text = str_replace( array( "'", "\u{2019}", "\u{2018}", '`' ), '', $text ); // O'Brien and OBrien both match.
 		return trim( preg_replace( '/\s+/', ' ', mb_strtolower( $text ) ) );

@@ -14,27 +14,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="flhist-detail">
-	<?php if ( $e['thumb_id'] ) : ?>
-		<figure class="flhist-detail__figure">
-			<?php
-			// Alt text comes from the media library.
-			echo wp_get_attachment_image( $e['thumb_id'], 'large', false, array( 'class' => 'flhist-detail__img' ) );
-			?>
-			<?php if ( '' !== $e['caption'] ) : ?>
-				<figcaption class="flhist-detail__caption"><?php echo esc_html( $e['caption'] ); ?></figcaption>
-			<?php endif; ?>
-		</figure>
-	<?php endif; ?>
+	<div class="flhist-detail__top<?php echo $e['thumb_id'] ? ' flhist-detail__top--has-photo' : ''; ?>">
+		<?php if ( $e['thumb_id'] ) : ?>
+			<figure class="flhist-detail__figure">
+				<?php
+				// Alt text comes from the media library.
+				echo wp_get_attachment_image( $e['thumb_id'], 'large', false, array( 'class' => 'flhist-detail__img' ) );
+				?>
+				<?php if ( '' !== $e['caption'] ) : ?>
+					<figcaption class="flhist-detail__caption"><?php echo esc_html( $e['caption'] ); ?></figcaption>
+				<?php endif; ?>
+			</figure>
+		<?php endif; ?>
 
-	<div class="flhist-detail__head">
-		<p class="flhist-card__meta">
-			<span class="flhist-card__year"><?php echo esc_html( $e['date_label'] ); ?></span>
-			<span class="flhist-badge flhist-badge--<?php echo esc_attr( $e['type_slug'] ); ?>"><?php echo esc_html( $e['type'] ); ?></span>
-			<?php if ( '' !== $e['city'] ) : ?>
-				<span class="flhist-card__city"><?php echo esc_html( $e['city'] ); ?></span>
-			<?php endif; ?>
-		</p>
-		<h2 class="flhist-detail__title" data-flhist-title><?php echo esc_html( $e['title'] ); ?></h2>
+		<div class="flhist-detail__head">
+			<p class="flhist-card__meta">
+				<span class="flhist-card__year"><?php echo esc_html( $e['date_label'] ); ?></span>
+				<span class="flhist-badge flhist-badge--<?php echo esc_attr( $e['type_slug'] ); ?>"><?php echo esc_html( $e['type'] ); ?></span>
+				<?php if ( '' !== $e['city'] ) : ?>
+					<span class="flhist-card__city"><?php echo esc_html( $e['city'] ); ?></span>
+				<?php endif; ?>
+			</p>
+			<h2 class="flhist-detail__title" data-flhist-title><?php echo esc_html( $e['title'] ); ?></h2>
+		</div>
 	</div>
 
 	<?php if ( '' !== $e['body_html'] ) : ?>
@@ -45,6 +47,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php if ( $e['video_id'] ) : ?>
 		<div class="flhist-detail__video" data-flhist-video="<?php echo esc_attr( $e['video_id'] ); ?>" data-title="<?php echo esc_attr( sprintf( /* translators: %s: entry name */ __( 'Video: %s', 'flhist' ), $e['title'] ) ); ?>"></div>
+	<?php endif; ?>
+
+	<?php if ( '' !== $e['transcript_html'] ) : ?>
+		<details class="flhist-detail__transcript">
+			<summary><?php esc_html_e( 'Video transcript', 'flhist' ); ?></summary>
+			<div class="flhist-detail__transcript-body"><?php echo $e['transcript_html']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped with esc_html before wpautop. ?></div>
+		</details>
 	<?php endif; ?>
 
 	<?php if ( $e['docs'] ) : ?>

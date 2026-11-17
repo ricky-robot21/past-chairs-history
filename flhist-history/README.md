@@ -23,6 +23,7 @@ Each of these is optional. An entry that has any of them gets a **Read more** bu
 - **Photo.** Use the **Photo** box on the right. Pick a picture that is at least 400 pixels wide. After you upload it, fill in the **Alt text** field in the media library. Alt text describes the picture for people who cannot see it. A warning shows on the edit screen if it is missing or if the photo is narrower than 400 pixels.
 - **Full story.** Type it in the main text box.
 - **Video.** Paste a YouTube link, such as `https://www.youtube.com/watch?v=...` or `https://youtu.be/...`. Other video sites do not work.
+- **Video transcript.** If you add a video, also paste the words spoken in it into **Video transcript**. Visitors see it in a collapsible box under the video. The edit screen reminds you if it is missing.
 - **PDFs.** Upload up to three. Give each one a label, such as "1994 Annual Report". Visitors see the label, the file type, and the size.
 
 ### Add many entries from a spreadsheet
@@ -88,7 +89,7 @@ Heading color and the keyboard focus ring use `!important`, because some themes 
 
 ### Import from a spreadsheet
 
-Fill in `data/import-template.csv` (the `city` and `other_years` columns are optional), then run:
+Fill in `data/import-template.csv` (the `city`, `other_years`, and `transcript` columns are optional), then run:
 
 ```
 wp flhist import path/to/file.csv --dry-run

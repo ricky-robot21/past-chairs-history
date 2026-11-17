@@ -141,6 +141,15 @@ class FLHist_Fields {
 					'type'         => 'url',
 					'instructions' => __( 'Optional. Paste a YouTube link, such as https://www.youtube.com/watch?v=... or https://youtu.be/...', 'flhist' ),
 				),
+				array(
+					'key'          => 'field_flhist_transcript',
+					'label'        => __( 'Video transcript', 'flhist' ),
+					'name'         => 'flhist_transcript',
+					'type'         => 'textarea',
+					'instructions' => __( 'Optional, but recommended when there is a video. The words spoken in the video, so people who cannot hear it can read them. Visitors see it under the video.', 'flhist' ),
+					'rows'         => 6,
+					'new_lines'    => '',
+				),
 			),
 			$doc_fields
 		);
@@ -293,6 +302,11 @@ class FLHist_Fields {
 				echo '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Add alt text in the media library.', 'flhist' ) . '</a>';
 			}
 			echo '</p></div>';
+		}
+		$has_video      = '' !== self::youtube_id( get_post_meta( $post_id, 'flhist_video_url', true ) );
+		$has_transcript = '' !== trim( (string) get_post_meta( $post_id, 'flhist_transcript', true ) );
+		if ( $post_id && $has_video && ! $has_transcript ) {
+			echo '<div class="notice notice-warning"><p>' . esc_html__( 'This entry has a video but no transcript. Add the words spoken in the video to the Video transcript box so everyone can read them.', 'flhist' ) . '</p></div>';
 		}
 		$meta = $thumb ? wp_get_attachment_metadata( $thumb ) : array();
 		if ( $thumb && ! empty( $meta['width'] ) && (int) $meta['width'] < 400 ) {

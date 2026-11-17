@@ -740,3 +740,48 @@
 		color: #000;
 	}
 }
+
+/* Photo beside the name and years in the dialog on wider screens. */
+@media (min-width: 640px) {
+	.flhist .flhist-detail__top--has-photo {
+		display: grid;
+		grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+		gap: calc(var(--flhist-space) * 1.5);
+		align-items: start;
+		margin-bottom: var(--flhist-space);
+	}
+
+	.flhist .flhist-detail__top--has-photo .flhist-detail__figure,
+	.flhist .flhist-detail__top--has-photo .flhist-detail__head {
+		margin: 0;
+	}
+
+	.flhist .flhist-detail__top--has-photo .flhist-detail__img {
+		width: 100%;
+		max-height: 24rem;
+		object-fit: cover;
+		object-position: center top;
+	}
+
+	.flhist .flhist-detail__top--has-photo .flhist-detail__title {
+		margin-bottom: 0;
+	}
+}
+
+.flhist .flhist-detail__transcript {
+	margin: 0 0 var(--flhist-space);
+	border: 1px solid var(--flhist-color-border);
+	border-radius: calc(var(--flhist-radius) / 2);
+}
+
+.flhist .flhist-detail__transcript summary {
+	padding: 0.75rem var(--flhist-space);
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.flhist .flhist-detail__transcript-body {
+	max-height: 18rem;
+	padding: 0 var(--flhist-space) var(--flhist-space);
+	overflow-y: auto;
+}
