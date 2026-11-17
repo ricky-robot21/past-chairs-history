@@ -1,2 +1,2 @@
-"title","type","year_start","year_end","display_date","city","snippet","body","photo_url","video_url","doc_1_url","doc_1_label","doc_2_url","doc_2_label","doc_3_url","doc_3_label"
-"Example Name","Chair","2000","2001","","","One or two sentences shown on the card. Delete this example row before you import.","","","","","","","","",""
+"title","type","year_start","year_end","display_date","other_years","city","snippet","body","photo_url","video_url","doc_1_url","doc_1_label","doc_2_url","doc_2_label","doc_3_url","doc_3_label"
+"Example Name","Chair","2000","2001","","","","One or two sentences shown on the card. Delete this example row before you import.","","","","","","","","",""

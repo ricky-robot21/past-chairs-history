@@ -21,6 +21,7 @@ $has_photo = (bool) $e['thumb_id'];
 	data-decade="<?php echo esc_attr( $e['decade'] ); ?>"
 	data-year-start="<?php echo esc_attr( $e['year_start'] ); ?>"
 	data-year-end="<?php echo esc_attr( $e['year_end'] ); ?>"
+		data-other-years="<?php echo esc_attr( implode( ' ', $e['other_years'] ) ); ?>"
 	data-search="<?php echo esc_attr( $e['search'] ); ?>">
 	<article class="flhist-card<?php echo $has_photo ? ' flhist-card--has-photo' : ''; ?>">
 		<?php if ( $has_photo ) : ?>

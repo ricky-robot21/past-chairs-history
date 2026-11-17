@@ -293,13 +293,14 @@
 			var blob = entry.getAttribute( 'data-search' ) || '';
 			var start = parseInt( entry.getAttribute( 'data-year-start' ), 10 );
 			var end = parseInt( entry.getAttribute( 'data-year-end' ), 10 ) || start;
+			var others = ( entry.getAttribute( 'data-other-years' ) || '' ).split( ' ' );
 			return words.every( function ( word ) {
 				if ( blob.indexOf( word ) !== -1 ) {
 					return true;
 				}
 				if ( /^\d{4}$/.test( word ) ) {
 					var year = parseInt( word, 10 );
-					return year >= start && year <= end;
+					return ( year >= start && year <= end ) || others.indexOf( word ) !== -1;
 				}
 				return false;
 			} );

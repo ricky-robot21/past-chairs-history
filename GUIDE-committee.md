@@ -19,7 +19,7 @@ The chair now shows on the History page in the right decade. You do not choose t
 
 All of this is optional. A chair with any of it gets a **Read more** button.
 
-- **Photo:** use the **Photo** box on the right, then **Set photo**. Pick a picture at least 400 pixels wide. Open the picture in the media library and fill in **Alt text**, a short description for people who cannot see it. The edit screen warns you if the alt text is missing or the picture is too small.
+- **Photo:** use the **Photo** box on the right, then **Set photo**. Pick a picture at least 400 pixels wide. The timeline cuts it to a tall rectangle, so put faces in the middle. The pop-up shows the whole picture. Open the picture in the media library and fill in **Alt text**, a short description for people who cannot see it. The edit screen warns you if the alt text is missing or the picture is too small.
 - **Full story:** type it in the large text box at the bottom of the page.
 - **Video:** paste a YouTube link into **YouTube link**.
 - **PDFs:** click **Add File** under **PDF 1**, and type the link text under **PDF 1 label**, such as `1994 Annual Report`. You can add up to three.
@@ -29,6 +29,7 @@ All of this is optional. A chair with any of it gets a **Read more** button.
 - **Change something:** open the chair from **History Entries**, edit, and click **Update**.
 - **Hide a chair without deleting:** change **Status** to **Draft**, then **Update**.
 - **Two chairs in the same year:** use the **Order** number on the right. Lower numbers come first.
+- **A chair who served in separate years**, such as 2013 and 2015: type `2013, 2015` in **Other years**. Searching either year finds the chair.
 - **Special wording for the years**, such as `2019 to 2020 (co-chairs)`: type it in **Date label**.
 
 ## Add many at once

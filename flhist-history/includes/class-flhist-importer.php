@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FLHist_Importer {
 
 	const COLUMNS = array(
-		'title', 'type', 'year_start', 'year_end', 'display_date', 'city', 'snippet', 'body',
+		'title', 'type', 'year_start', 'year_end', 'display_date', 'other_years', 'city', 'snippet', 'body',
 		'photo_url', 'video_url',
 		'doc_1_url', 'doc_1_label', 'doc_2_url', 'doc_2_label', 'doc_3_url', 'doc_3_label',
 	);
@@ -162,6 +162,9 @@ class FLHist_Importer {
 				$problems[] = 'End year is earlier than the start year.';
 			}
 		}
+		if ( '' !== $row['other_years'] && count( FLHist_Render::other_years( $row['other_years'] ) ) !== count( array_unique( preg_split( '/[\s,;]+/', $row['other_years'] ) ) ) ) {
+			$problems[] = 'Other years must be four-digit years separated by commas.';
+		}
 		if ( '' === $row['snippet'] ) {
 			$problems[] = 'The short summary is empty.';
 		}
@@ -207,6 +210,7 @@ class FLHist_Importer {
 		self::set_field( $id, 'flhist_year_start', (int) $row['year_start'] );
 		self::set_field( $id, 'flhist_year_end', '' === $row['year_end'] ? '' : (int) $row['year_end'] );
 		self::set_field( $id, 'flhist_display_date', sanitize_text_field( $row['display_date'] ) );
+		self::set_field( $id, 'flhist_other_years', sanitize_text_field( $row['other_years'] ) );
 		self::set_field( $id, 'flhist_city', sanitize_text_field( $row['city'] ) );
 		self::set_field( $id, 'flhist_snippet', sanitize_textarea_field( $row['snippet'] ) );
 		self::set_field( $id, 'flhist_video_url', esc_url_raw( $row['video_url'] ) );

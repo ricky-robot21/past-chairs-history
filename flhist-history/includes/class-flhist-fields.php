@@ -15,8 +15,10 @@ class FLHist_Fields {
 		add_action( 'acf/init', array( __CLASS__, 'register_field_group' ) );
 		add_filter( 'acf/load_value/key=field_flhist_type', array( __CLASS__, 'default_type' ) );
 		add_filter( 'acf/validate_value/key=field_flhist_year_end', array( __CLASS__, 'validate_year_end' ), 10, 4 );
+		add_filter( 'acf/validate_value/key=field_flhist_other_years', array( __CLASS__, 'validate_other_years' ), 10, 4 );
 		add_filter( 'acf/validate_value/key=field_flhist_video_url', array( __CLASS__, 'validate_video_url' ), 10, 4 );
 
+		add_filter( 'admin_post_thumbnail_html', array( __CLASS__, 'photo_hint' ), 10, 2 );
 		add_action( 'admin_notices', array( __CLASS__, 'notice_acf_missing' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'notice_missing_alt' ) );
 
@@ -109,6 +111,13 @@ class FLHist_Fields {
 					'instructions' => __( 'Optional. Replaces the years shown on the card. Example: 2019 to 2020 (co-chairs).', 'flhist' ),
 				),
 				array(
+					'key'          => 'field_flhist_other_years',
+					'label'        => __( 'Other years', 'flhist' ),
+					'name'         => 'flhist_other_years',
+					'type'         => 'text',
+					'instructions' => __( 'Optional. Extra years that are not between the start and end year, separated by commas. Example: 2013, 2015. Visitors who search for one of these years will find this entry.', 'flhist' ),
+				),
+				array(
 					'key'          => 'field_flhist_city',
 					'label'        => __( 'City', 'flhist' ),
 					'name'         => 'flhist_city',
@@ -192,6 +201,31 @@ class FLHist_Fields {
 	/**
 	 * Only YouTube links are allowed.
 	 */
+	/**
+	 * A note under the Photo box so the committee picks a suitable picture.
+	 */
+	public static function photo_hint( $content, $post_id ) {
+		if ( FLHist_Post_Types::POST_TYPE !== get_post_type( $post_id ) ) {
+			return $content;
+		}
+		return $content . '<p class="description">' . esc_html__( 'On the timeline the photo is shown as a tall rectangle (4 wide by 5 tall), so the edges of a wide photo are cut off. In the pop-up window the whole photo shows. Use a photo at least 400 pixels wide, and put faces in the middle.', 'flhist' ) . '</p>';
+	}
+
+	/**
+	 * Other years: four-digit years separated by commas or spaces.
+	 */
+	public static function validate_other_years( $valid, $value, $field, $input ) {
+		if ( true !== $valid || '' === trim( (string) $value ) ) {
+			return $valid;
+		}
+		foreach ( preg_split( '/[\s,;]+/', trim( (string) $value ) ) as $part ) {
+			if ( ! preg_match( '/^\d{4}$/', $part ) ) {
+				return __( 'Use four-digit years separated by commas, such as 2013, 2015.', 'flhist' );
+			}
+		}
+		return $valid;
+	}
+
 	public static function validate_video_url( $valid, $value, $field, $input ) {
 		if ( true !== $valid || '' === $value || null === $value ) {
 			return $valid;

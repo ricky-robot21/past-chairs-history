@@ -18,6 +18,7 @@ An entry with only a name, years, and a summary is a complete entry. It shows as
 
 Each of these is optional. An entry that has any of them gets a **Read more** button instead of **Details**.
 
+- **Other years.** For a chair whose term was not one run of years, such as 2013 and 2015, type `2013, 2015` in **Other years**. A visitor who searches for one of those years finds the entry. The card still shows the start and end year, or the Date label.
 - **City.** Type the chair's city in the **City** box. It shows beside the years and can be searched.
 - **Photo.** Use the **Photo** box on the right. Pick a picture that is at least 400 pixels wide. After you upload it, fill in the **Alt text** field in the media library. Alt text describes the picture for people who cannot see it. A warning shows on the edit screen if it is missing or if the photo is narrower than 400 pixels.
 - **Full story.** Type it in the main text box.
@@ -83,7 +84,7 @@ Heading color and the keyboard focus ring use `!important`, because some themes 
 
 ### Import from a spreadsheet
 
-Fill in `data/import-template.csv` (the `city` column is optional), then run:
+Fill in `data/import-template.csv` (the `city` and `other_years` columns are optional), then run:
 
 ```
 wp flhist import path/to/file.csv --dry-run
